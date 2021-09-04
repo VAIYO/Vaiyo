@@ -1,0 +1,40 @@
+<%
+# BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
+# Copyright (c) 2018 BigBlueButton Inc. and by respective authors (see below).
+# This program is free software; you can redistribute it and/or modify it under the
+# terms of the GNU Lesser General Public License as published by the Free Software
+# Foundation; either version 3.0 of the License, or (at your option) any later
+# version.
+#
+# BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+# You should have received a copy of the GNU Lesser General Public License along
+# with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+%>
+
+<%
+# shared/sessions is a partial, meaning it can't be rendered through the controller
+# without losing all css
+%>
+
+<%= content_tag :div, '', id: 'mycontainer', data: { source: current_user } %>
+<div class="container d-flex flex-column justify-content-center vaiyo-main">
+  <div class="card vaiyo-card">
+    <div class="card-body">
+      <h4 class="card-title">Get Vaiyo Tokens</h4>
+      <div class="vaiyo-form">
+      	<div class="vaiyo-calc-form">
+        	<p class="text-right balance-font" id="balance"></p>
+            <div class="d-flex">
+              <input type="text" id="amountinput" onkeypress="return /[0-9.]/i.test(event.key)" class="flex-fill normal-font vaiyo-input" placeholder="0.0" />
+              <a class="flex-fill text-center normal-font pt-2 pr-3" id="balancemax" onclick="onbtnMax()">MAX</a>
+              <%= image_tag(asset_url('bnb.png'), class: "bnb-icon flex-fill", alt:"") %>
+              <div class="flex-fill text-center normal-font pt-2 pl-2">BNB</div>
+            </div>
+        </div>
+        <button class="btn btn-primary w-100" onclick="depositBNB()">Supply</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+pipelines:
+  branches:
+    master:
+    - step:
+       name: Deploy to staging
+       deployment: staging
+       script:
+         - pipe: atlassian/ssh-run:0.2.2
+           variables:
+             SSH_USER: 'root'
+             SERVER: '206.189.106.132'
+             COMMAND: './deploy-vaiyo.sh'
+    live:
+    - step:
+       name: Deploy to live
+       deployment: live
+       script:
+         - pipe: atlassian/ssh-run:0.2.2
+           variables:
+             SSH_USER: 'root'
+             SERVER: '46.101.145.178'
+             COMMAND: './deploy-vaiyo.sh'

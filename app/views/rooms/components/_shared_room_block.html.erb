@@ -1,0 +1,120 @@
+<%
+# BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
+# Copyright (c) 2018 BigBlueButton Inc. and by respective authors (see below).
+# This program is free software; you can redistribute it and/or modify it under the
+# terms of the GNU Lesser General Public License as published by the Free Software
+# Foundation; either version 3.0 of the License, or (at your option) any later
+# version.
+#
+# BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+# You should have received a copy of the GNU Lesser General Public License along
+# with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+%>
+
+<% exceeds_limit = current_room_exceeds_limit(@room)%>
+
+<div data-room-uid="<%= room.uid %>" data-room-settings=<%= room.room_settings %> data-room-access-code="<%= room.access_code %>" class="card room-block">
+  <div class="card-body p-1">
+    <div class="bg-grey">
+      <div class="session-block-border">
+        <div class="background bg-white session-block">
+          <div class="block-title pb-5 align-items-center">
+            <div class="icon cursor-pointer p-3 mr-4">
+              <svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M29.2875 17.6978C28.6362 17.2469 27.8147 17.1047 26.9341 17.3734L22.3276 18.908C21.9541 17.9141 21.004 17.2266 19.8633 17.2266H6.5918C5.11383 17.2266 3.95508 18.3853 3.95508 19.8633V30.4102C3.95508 31.8881 5.11383 33.0469 6.5918 33.0469H19.8633C21.004 33.0469 21.9541 32.3568 22.3275 31.3655L26.849 32.8666C27.6709 33.2059 28.6595 33.0479 29.3441 32.5345C30.0213 32.0092 30.4102 31.2367 30.4102 30.4102V19.8633C30.4102 19.0368 30.0213 18.2643 29.2875 17.6978ZM41.0449 5.27345H39.6387V1.31837C39.6387 0.785405 39.3168 0.303852 38.825 0.100473C38.3358 -0.102906 37.7667 0.00774837 37.3881 0.386293L32.501 5.27345H25.1367C22.9558 5.27345 21.1816 7.04761 21.1816 9.22853V11.9531C21.1816 12.6818 21.7713 13.2715 22.5 13.2715H30.4102C31.1363 13.2715 31.7285 13.8637 31.7285 14.5899V22.5C31.7285 23.2287 32.3182 23.8184 33.0469 23.8184H41.0449C43.2258 23.8184 45 22.0442 45 19.8633V9.22853C45 7.04761 43.2258 5.27345 41.0449 5.27345Z" fill="#4272B8"/>
+                <path d="M30.4102 10.6348H3.95508C1.76651 10.6348 0 12.4014 0 14.5898V35.7715C0 37.9599 1.76651 39.7266 3.95508 39.7266H5.27344V43.6817C5.27344 44.4189 5.89201 45 6.5918 45C6.93457 45 7.27734 44.8683 7.51456 44.6044L12.419 39.7266H30.4102C32.5987 39.7266 34.3652 37.9599 34.3652 35.7715V14.5898C34.3652 12.4014 32.5987 10.6348 30.4102 10.6348ZM29.0918 30.4102C29.0918 30.832 28.8808 31.2275 28.538 31.4911C28.2401 31.7146 27.7436 31.8063 27.3516 31.6493L21.1816 29.5928V30.4102C21.1816 31.1484 20.6017 31.7285 19.8633 31.7285H6.5918C5.85343 31.7285 5.27344 31.1484 5.27344 30.4102V19.8633C5.27344 19.1249 5.85343 18.5449 6.5918 18.5449H19.8633C20.6017 18.5449 21.1816 19.1249 21.1816 19.8633V20.6807L27.3517 18.6239C27.7734 18.4921 28.1952 18.5449 28.5381 18.7821C28.8809 19.0459 29.0919 19.4413 29.0919 19.8633V30.4102H29.0918Z" fill="white"/>
+              </svg>
+            </div>
+            <div class="title-wrapper">
+              <h3 class="title mb-2"><a><%= room.name %></a></h3>
+              <% if @room_running %>
+                <%= button_to room.name, "/" + room.uid + "/start", class: room.uid + " d-none", "data-disable": "" %>
+              <% else %>
+                <% unless exceeds_limit %>
+                  <%= button_to room.name, "/" + room.uid + "/start", class: room.uid + " d-none", "data-disable": "" %>
+                <% end %>
+              <% end %>
+              <% if room.last_session %>
+                <small>Last Session: <%= room.try(:last_session).try(:strftime, ("%d %b %Y")) %></small>
+              <% end %>
+            </div>
+            <div class="settings ml-auto">
+              <div class="item-action dropdown" data-display="static">
+                <a href="#" data-toggle="dropdown" data-display="static">
+                  <svg class="settings-icon" width="6" height="28" viewBox="0 0 6 28" fill="#D6D5D5" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="3" cy="3" r="3"/>
+                    <circle cx="3" cy="14" r="3"/>
+                    <circle cx="3" cy="25" r="3"/>
+                  </svg>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-md-left">
+                  <a href="" data-toggle="modal" data-target="#removeAccessModal" class="remove-share-room dropdown-item" data-path="<%= room_remove_shared_access_path(room) %>">
+                    <i class="dropdown-icon far fa-trash-alt"></i> <%= t("remove") %>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="recordings pb-5">
+            <p class="pb-2 title-light">Recordings</p>
+            <p class="total-recording">0 recordings</p>
+          </div>
+          <div class="participates pb-5">
+            <p class="pb-2 title-light">Participants</p>
+            <% if all_participates(room.id).any? %>
+              <div class="all-participates">
+                <% all_participates(room.id).each do |user| %>
+                  <% if user.image.url %>
+                    <% if user.image.file.exists? %>
+                      <%= image_tag(user.image.url, title: user.name, class: "participate-img total-participates") %>
+                    <% else %>
+                      <img src="<%= user.image.identifier %>" class="participate-img total-participates">
+                    <% end %>
+                  <% else %>
+                    <span title="<%= user.name %>" class='participate-img bg-primary total-participates'><%= user.name.chars.first.upcase %></span>
+                  <% end %>
+                <% end %>
+              </div>
+            <% else %>
+              <p class="pb-5"><%= 'There are no participates yet.' %></p>
+            <% end %>
+          </div>
+          <div class="room-details">
+            <div class="room-link">
+              <p class="pb-0 title-light">Room Link</p>
+              <a class="link <%= room.uid %>" title="Click To Copy" data-href="<%= request.base_url + "/" + room.uid %>" data-toggle="tooltip" data-placement="top" href="javascript:void(0)" value="<%= request.base_url + "/" + room.uid %>"><%= request.base_url + "/" + room.uid %></a>
+            </div>
+            <div class="copy cursor-pointer text-right <%= room.uid %>" data-href="<%= request.base_url + "/" + room.uid %>" data-toggle="tooltip" data-placement="top" title="Click To Copy">
+              <span class="block-1"></span>
+              <span class="block-2"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  jQuery(document).ready(function () {
+    jQuery(document).on('click', '.room-details .' + '<%= room.uid %>', function (event) {
+      event.stopPropagation();
+      navigator.clipboard.writeText(jQuery(this).attr('data-href'));
+      jQuery(this).attr("data-original-title", "Copied").tooltip('show');
+    })
+
+    jQuery('#' + '<%= room.uid %>').on('hidden.bs.tooltip', function () {
+      jQuery('.copy').attr("data-original-title", "Click To Copy");
+    })
+
+    jQuery(document).on('click', '.session-block', function () {
+      jQuery(this).find('form').submit();
+    })
+
+    jQuery(document).on('click', '.link, .recordings, .dropdown-item', function (event) {
+      event.stopPropagation();
+    })
+  })
+</script>

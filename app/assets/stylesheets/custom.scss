@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+$grey-light: #E5E5E5;
+$br-18: 18.4901px;
+$gradient: linear-gradient(180deg, #3FB7E7 0%, #4DCCFF 100%);
+$max-layout-breakpoint-2xs: 320px;
+$max-layout-breakpoint-ipad-pro: 1024px;
+$min-layout-breakpoint-ipad: 768px;
+
+.create-room-icon {
+    min-width: 7rem;
+    height: 7rem;
+    line-height: 7rem;
+}
+
+#create-room-block {
+    padding-top: 6.5rem;
+    padding-bottom: 6rem;
+}
+
+.bg-grey-light {
+    .title {
+        font-size: 22px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        line-height: 33px;
+        letter-spacing: 0.308169px;
+        color: #000000;
+    }
+    .stamp-md {
+        background: $gradient;
+        border-radius: 11px;
+    }
+    #create-room-block {
+        border: 3px dashed #D9D9D9;
+        border-radius: $br-18;
+    }
+}
+
+.session-block-border {
+    background: linear-gradient(131.32deg, #FFFFFF 4.83%, #EEEEED 95.08%);
+    border-radius: 24px;
+    padding: 5px;
+    box-shadow: 5px 5px #727273;
+    .session-block {
+        font-family: 'Poppins', sans-serif;
+        letter-spacing: 0.308169px;
+        border: 2px solid #CECECF;
+        border-radius: $br-18;
+        padding-top: 26px;
+        padding-bottom: 26px;
+        padding-left: 22px;
+        padding-right: 30px;
+        cursor: pointer;
+        p {
+            margin-bottom: 0px !important;
+        }
+        .block-title {
+            display: flex;
+            .icon {
+                background: $gradient;
+                border-radius: 8px;
+                max-width: 68px;
+            }
+            .title-wrapper {
+                .title {
+                    font-size: 18px;
+                    font-weight: 600;
+                    line-height: 27px;
+                    letter-spacing: 0.308169px;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    max-width: 200px;
+                    a {
+                        color: #000000 !important;
+                        &:hover {
+                            color: #467fcf !important;
+                        }
+                    }
+                }
+                small {
+                    font-size: 14px;
+                    line-height: 21px;
+                    opacity: 0.8;
+                    letter-spacing: 0.308169px;
+                }
+            }
+            .settings {
+                .settings-icon {
+                    &:hover {
+                        fill: #000000;
+                    }
+                }
+            }
+        }
+        .recordings {
+            .total-recording {
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 27px;
+                text-decoration: underline;
+                color: #4272B8;
+            }
+        }
+        .participates {
+            .all-participates {
+                direction: rtl;
+                text-align: left;
+                padding-left: 15px;
+                .participate-img {
+                    width: 46px;
+                    height: 46px;
+                    border: 2px solid #FFFFFF;
+                    border-radius: 50%;
+                    position: relative;
+                    left: -5px;
+                    margin-left: -15px;
+                    z-index: 1;
+                }
+            }
+            .total-participates {
+                line-height: 41px;
+                text-align: center;
+                font-weight: 600;
+                font-size: 16px;
+                display: inline-block;
+                direction: ltr;
+            }
+        }
+        .room-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            .room-link {
+                width: 80%;
+            }
+            .link {
+                font-weight: 600;
+                font-size: 10px;
+                line-height: 21px;
+                color: #464242 !important;
+                opacity: 0.5;
+                &:hover {
+                    color: #000000 !important;
+                }
+            }
+            .copy {
+                width: 20%;
+                .block-1 {
+                    height: 22.5px;
+                    width: 20px;
+                    background-color: #3FB7E7;
+                    display: inline-block;
+                    border-radius: 5px;
+                    position: relative;
+                    z-index: 2;
+                    left: 28px;
+                    top: -5px;
+                    border: 2px solid white;
+
+                    @media (max-width: $max-layout-breakpoint-2xs) {
+                        left: 4px;
+                        top: 24px;
+                    }
+
+                    @media (min-width: $max-layout-breakpoint-ipad-pro) and (max-width: $max-layout-breakpoint-ipad-pro) {
+                        left: 4px;
+                        top: 24px;
+                    }
+                }
+                .block-2 {
+                    height: 22.5px;
+                    width: 20px;
+                    background-color: #4272B8;
+                    display: inline-block;
+                    border-radius: 5px;
+                    top: 31px;
+                }
+            }
+        }
+    }
+}
+
+.custom-block {
+    .card {
+        box-shadow: unset;
+        background-color: unset;
+        border: unset;
+    }
+}
+
+.sign-in-button {
+    background: rgba(66, 114, 184, 0.07);
+    border: unset;
+    border-radius: 12px;
+    font-family: 'Poppins';
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.select-user-lang .dropdown-menu {
+    max-width: 100%;
+    min-width: 100% !important;
+}
+
+//common css
+.title-light {
+    font-size: 14px;
+    line-height: 21px;
+    color: #000000;
+    opacity: 0.6;
+    font-weight: 300;
+}
