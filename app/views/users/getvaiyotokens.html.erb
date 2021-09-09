@@ -29,11 +29,35 @@
             <div class="d-flex">
               <input type="text" id="amountinput" onkeypress="return /[0-9.]/i.test(event.key)" class="flex-fill normal-font vaiyo-input" placeholder="0.0" />
               <a class="flex-fill text-center normal-font pt-2 pr-3" id="balancemax" onclick="onbtnMax()">MAX</a>
-              <%= image_tag(asset_url('bnb.png'), class: "bnb-icon flex-fill", alt:"") %>
-              <div class="flex-fill text-center normal-font pt-2 pl-2">BNB</div>
+
+              <div class="dropdown">
+                <a href="#" class="nav-link pr-0 mt-2" data-toggle="dropdown">
+                  <%= image_tag(asset_url('bnb.png'), id:"crypto-icon", class: "bnb-icon flex-fill", alt:"") %>
+                  <span class="ml-2 d-flex">
+                    <span class="text-default username normal-font" id="crypto-name">
+                      BNB                      
+                    </span>
+                    <i class="fa fa-caret-down icon-down"></i>
+                  </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" id="crypto-dropdown-menu" x-placement="bottom-end">    
+                  <div class="menu-item dropdown-item" onclick="onCryptoMenuClick('bnb')">              
+                    <%= image_tag(asset_url('bnb.png'), id:"crypto-icon-1", class: "bnb-icon", alt:"") %>
+                    <span class="ml-2 d-lg-block">
+                      <span class="text-default username normal-font pl-3">BNB</span>
+                    </span>
+                  </div>
+                  <div class="menu-item dropdown-item" onclick="onCryptoMenuClick('busd')">
+                    <%= image_tag(asset_url('busd.png'), id:"crypto-icon-2", class: "bnb-icon", alt:"") %>
+                    <span class="ml-2 d-lg-block">
+                      <span class="text-default username normal-font pl-3">BUSD</span>
+                    </span>
+                  </div>                
+                </div>
+              </div>
             </div>
         </div>
-        <button class="btn btn-primary w-100" onclick="depositBNB()">Supply</button>
+        <button class="btn btn-primary w-100" id="supplybtn" onclick="deposit()">Supply</button>
       </div>
     </div>
   </div>

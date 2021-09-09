@@ -19,8 +19,8 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.user-role-tag{
-    color: white !important;
+.user-role-tag {
+  color: white !important;
 }
 
 .shared-user {
@@ -58,9 +58,13 @@
   font-size: 20px;
 }
 
+.icon-down {
+  margin: 8px;
+}
+
 .bnb-icon {
-  height: 50px;
-  width: 50px;
+  height: 30px;
+  width: 30px;
   display: block;
   /* Other styles here */
 }
@@ -81,4 +85,11 @@ input:focus {
   outline: none !important;
   box-shadow: 0 0 0 rgba(0, 0, 0, 0) !important;
   z-index: 1;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 7px 15px;
+  cursor: pointer;
 }
