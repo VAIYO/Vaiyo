@@ -34,7 +34,6 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.provider = @user_domain
     # User or recpatcha is not valid
-    $recive_user = user_params[:waddress]
     render("sessions/new") && return unless valid_user_or_captcha
 
     # Redirect to root if user token is either invalid or expired

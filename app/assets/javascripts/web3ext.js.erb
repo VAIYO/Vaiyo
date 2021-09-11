@@ -1,6 +1,8 @@
 // const vaiyotokenaddress = "0xBA19f24dFCf7f795D90c0404d104680dB28BAC2b"; //main
-const vaiyotokenaddress = "0x028C98fB13F551FaF5EfF0Dec5c80B98CFf706A5"; //test
-const lockvaiyoaddress = "0x428E68a2a7309224919914812c41Fa1048Abf2f6";
+// const vaiyotokenaddress = "0x028C98fB13F551FaF5EfF0Dec5c80B98CFf706A5"; //test
+// const lockvaiyoaddress = "0x428E68a2a7309224919914812c41Fa1048Abf2f6";//test
+const vaiyotokenaddress = "0xBA19f24dFCf7f795D90c0404d104680dB28BAC2b"; //main
+const lockvaiyoaddress = "0xE2E0C69A21a0d8550ca3FE8D6575c14B0c14D284"; //main
 const busdAddress = "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56";
 
 const LockContractABI = [
@@ -501,10 +503,22 @@ const BusdContractABI = [
 //   //"https://mainnet.infura.io/v3/515bc6d0df73416e938446fd12ae9234"
 //   //"https://bsc-dataseed.binance.org"
 // );
-var web3 = new Web3(window.ethereum);
+// async function getWeb3() {
+  const web3 = new Web3(window.ethereum);
+//   try {
+//     // Request account access if needed
+//     await window.ethereum.enable();
+//     // Acccounts now exposed
+//     // resolve(web3);
+//   } catch (error) {
+//     reject(error);
+//   }
+//   return web3;
+// }
 
-getBalance = async function (account) {
+async function getBalance(account) {
   var balance = 0;
+  // const web3 = await getWeb3();
   if (web3 !== "undefined") {
     await web3.eth.getBalance(account, function (err, result) {
       if (err) {
@@ -539,6 +553,7 @@ function onCryptoMenuClick(cryptotype) {
 }
 
 async function onbtnMax() {
+  await changeNetwork();
   const user = $("#mycontainer").data("source");
   const crypto = document.getElementById("crypto-name").innerHTML;
   if (crypto == "BNB") {
@@ -547,6 +562,7 @@ async function onbtnMax() {
       document.getElementById("amountinput").value = balance - 0.01;
     else document.getElementById("amountinput").value = 0;
   } else {
+    //const web3 = await getWeb3();
     const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
     const balance = await BusdContract.methods.balanceOf(user.waddress).call();
     const ret = web3.utils.fromWei(balance, "ether");
@@ -556,8 +572,10 @@ async function onbtnMax() {
 
 async function setSupplyBtnStatus(crypto) {
   document.getElementById("supplybtn").innerHTML = "Supply";
+  await changeNetwork();
   if (crypto == "busd") {
     const user = $("#mycontainer").data("source");
+    //const web3 = await getWeb3();
     const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
     const allowanceStr = await BusdContract.methods
       .allowance(user.waddress, lockvaiyoaddress)
@@ -567,8 +585,6 @@ async function setSupplyBtnStatus(crypto) {
       .call();
     const allowance = new BigNumber(allowanceStr);
     const balance = new BigNumber(balanceStr);
-    console.log("Allowance: ", allowance);
-    console.log("Balance: ", balance);
 
     if (allowance < balance) {
       document.getElementById("supplybtn").innerHTML = "Approve";
@@ -578,6 +594,7 @@ async function setSupplyBtnStatus(crypto) {
 
 async function approveBUSD() {
   const user = $("#mycontainer").data("source");
+  //const web3 = await getWeb3();
   const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
   const balance = await BusdContract.methods.balanceOf(user.waddress).call();
   document.getElementById("supplybtn").disabled = true;
@@ -595,6 +612,8 @@ async function approveBUSD() {
 }
 
 async function deposit() {
+  await connectWithWallet("metamask", "vaiyo");
+  await changeNetwork();
   const approvestate = document.getElementById("supplybtn").innerHTML;
   if (approvestate == "Approve") {
     approveBUSD();
@@ -606,9 +625,7 @@ async function deposit() {
   if (depositAmount == null) return;
   const amount = new BigNumber(depositAmount + "e18");
   const crypto = document.getElementById("crypto-name").innerHTML;
-  console.log("Deposit Amount: ", amount.toString());
-  console.log("Account: ", user.waddress);
-  console.log("Crypto: ", crypto);
+  //const web3 = await getWeb3();
   if (crypto == "BNB") {
     const LockContract = new web3.eth.Contract(
       LockContractABI,

@@ -27,11 +27,56 @@
             Sign In
           </button>
         </div>
-        <div class="toggle-display-wallet-options m-5" onclick="togleOtherWallet()" data-toggle="collapse" data-target="#demo">
+        <div class="toggle-display-wallet-options m-5" onclick="togleOtherWallet()" data-toggle="collapse" data-target="#cards_landscape_wrap-2">
           <i class="material-icons" id="otherwallet">keyboard_arrow_right</i>
           <h4 class="mt-2">Use a different wallet</h4>
         </div>
       </div>
   </div>
 
+  <!-- Topic Cards -->
+  <div class="collapse" id="cards_landscape_wrap-2">
+      <div class="container" id="demo" style="max-width:500px;">
+          <div class="row">
+              <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 mb-5">
+                      <div class="card-flyer">
+                          <div class="text-box" id="btn-metamask" onclick="setWallet('metamask')">
+                              <div class="image-box">
+                                  <%= image_tag(asset_url('metamask-alternative.png'), class:"btn-image", alt:"Card image") %>
+                              </div>
+                              <div class="text-container">
+                                  <h6>Metamask</h6>
+                                  
+                              </div>
+                          </div>
+                      </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 mb-5">
+                      <div class="card-flyer">
+                          <div class="text-box" id="btn-binance" onclick="setWallet('binance')">
+                              <div class="image-box">
+                                  <%= image_tag(asset_url('binance.png'), class:"btn-image", alt:"Card image") %>
+                              </div>
+                              <div class="text-container">                                    
+                                  <h6>BinanceWallet</h6>
+                              </div>
+                          </div>
+                      </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 mb-5">
+                      <div class="card-flyer">
+                          <div class="text-box" id="btn-mathwallet" onclick="setWallet('mathwallet')">
+                              <div class="image-box">
+                                  <%= image_tag(asset_url('mathwallet.png'), class:"btn-image", alt:"Card image") %>
+                              </div>
+
+                              <div class="text-container">
+                                  <h6>MathWallet</h6>
+                              </div>
+                          </div>
+                      </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>

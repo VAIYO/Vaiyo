@@ -3,6 +3,7 @@ $(document).on("turbolinks:load", async function () {
   var action = $("body").data("action");
 
   if (controller == "users" && action == "getvaiyotokens") {
+    await changeNetwork();
     const user = $("#mycontainer").data("source");
     getBalance(user.waddress).then((e) => {
       document.getElementById("balance").innerHTML = "Balance: " + e;
