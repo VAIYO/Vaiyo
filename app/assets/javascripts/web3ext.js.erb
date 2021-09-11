@@ -552,19 +552,24 @@ function onCryptoMenuClick(cryptotype) {
   document.getElementById("amountinput").value = "";
 }
 
-async function onbtnMax() {
+async function connectBinanceWithMetamask() {
+  await connectWithWallet("metamask", "");
   await changeNetwork();
-  const user = $("#mycontainer").data("source");
+}
+
+async function onbtnMax() {
+  await connectBinanceWithMetamask();
+  //const user = $("#mycontainer").data("source");
   const crypto = document.getElementById("crypto-name").innerHTML;
   if (crypto == "BNB") {
-    const balance = await getBalance(user.waddress);
+    const balance = await getBalance(currentAccount);
     if (balance - 0.01 > 0)
       document.getElementById("amountinput").value = balance - 0.01;
     else document.getElementById("amountinput").value = 0;
   } else {
     //const web3 = await getWeb3();
     const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
-    const balance = await BusdContract.methods.balanceOf(user.waddress).call();
+    const balance = await BusdContract.methods.balanceOf(currentAccount).call();
     const ret = web3.utils.fromWei(balance, "ether");
     document.getElementById("amountinput").value = ret;
   }
@@ -572,16 +577,16 @@ async function onbtnMax() {
 
 async function setSupplyBtnStatus(crypto) {
   document.getElementById("supplybtn").innerHTML = "Supply";
-  await changeNetwork();
+  await connectBinanceWithMetamask();
   if (crypto == "busd") {
-    const user = $("#mycontainer").data("source");
+    //const user = $("#mycontainer").data("source");
     //const web3 = await getWeb3();
     const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
     const allowanceStr = await BusdContract.methods
-      .allowance(user.waddress, lockvaiyoaddress)
+      .allowance(currentAccount, lockvaiyoaddress)
       .call();
     const balanceStr = await BusdContract.methods
-      .balanceOf(user.waddress)
+      .balanceOf(currentAccount)
       .call();
     const allowance = new BigNumber(allowanceStr);
     const balance = new BigNumber(balanceStr);
@@ -593,14 +598,14 @@ async function setSupplyBtnStatus(crypto) {
 }
 
 async function approveBUSD() {
-  const user = $("#mycontainer").data("source");
+  //const user = $("#mycontainer").data("source");
   //const web3 = await getWeb3();
   const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
-  const balance = await BusdContract.methods.balanceOf(user.waddress).call();
+  const balance = await BusdContract.methods.balanceOf(currentAccount).call();
   document.getElementById("supplybtn").disabled = true;
   await BusdContract.methods
     .approve(lockvaiyoaddress, balance)
-    .send({ from: user.waddress })
+    .send({ from: currentAccount })
     .then((data) => {
       document.getElementById("supplybtn").innerHTML = "Supply";
       document.getElementById("supplybtn").disabled = false;
@@ -612,14 +617,13 @@ async function approveBUSD() {
 }
 
 async function deposit() {
-  await connectWithWallet("metamask", "vaiyo");
-  await changeNetwork();
+  await connectBinanceWithMetamask();
   const approvestate = document.getElementById("supplybtn").innerHTML;
   if (approvestate == "Approve") {
     approveBUSD();
     return;
   }
-  const user = $("#mycontainer").data("source");
+  //const user = $("#mycontainer").data("source");
   let depositAmount = document.getElementById("amountinput").value;
   if (depositAmount == "") return;
   if (depositAmount == null) return;
@@ -635,7 +639,7 @@ async function deposit() {
     LockContract.methods
       .depositBNB()
       .send({
-        from: user.waddress,
+        from: currentAccount,
         value: amount, // in WEI, which is equivalent to 1 ether
       })
       .then((data) => {
@@ -654,7 +658,7 @@ async function deposit() {
     document.getElementById("supplybtn").disabled = true;
     LockContract.methods
       .depositBUSD(amount.toString())
-      .send({ from: user.waddress })
+      .send({ from: currentAccount })
       .then((data) => {
         console.log(data);
         document.getElementById("supplybtn").disabled = false;

@@ -52,13 +52,13 @@ async function setWallet(wallettype) {
 async function changeNetwork() {
   if (typeof window.ethereum !== "undefined") { 
     if(window.ethereum.chainId != 0x38) {
-      const user = $("#mycontainer").data("source");
+      //const user = $("#mycontainer").data("source");
       return window.ethereum.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x38" }]
       })
       .then((e) => {
-        getBalance(user.waddress)
+        getBalance(currentAccount)
         .then((balance) => {
           document.getElementById("balance").innerHTML = "Balance: " + balance;
         })
