@@ -39,8 +39,15 @@
 
       <div class="col-sm-6 mb-4">
         <%= f.label :waddress, t("waddress"), class: "form-label" %>
-        <div class="input-icon">
+        <!-- <div class="input-icon">
           <%= f.text_field :waddress, class: "form-control #{form_is_invalid?(@user, :waddress)}", placeholder: t("waddress"), readonly: readonly %>
+        </div> -->
+
+        <div class="input-group">
+          <%= f.text_field :waddress, id: "txtwaddress1", class: "form-control #{form_is_invalid?(@user, :waddress)}", placeholder: t("waddress"), readonly: true %>
+          <div class="input-group-append">
+            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-bars"></i></button>
+          </div>
         </div>
       </div>
     </div>
@@ -111,4 +118,48 @@
       <%= link_to t("settings.account.reset_password"), admin_reset_path(user_uid: @user.uid), class: "btn btn-primary float-right" %>
     <% end %>
   </div>
+
+  <div style="display:none">
+    <%= f.text_field :wtype, id: "wtype1", class: "form-control #{form_is_invalid?(@user, :wtype)}", placeholder: t("waddress"), readonly: true %>
+  </div>
+  
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">
+                Connect to a wallet
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary w-100" onclick="connectWithWallet('metamask', 'profile')" data-dismiss="modal">
+                  <span>Metamask</span>
+                </button>
+            </div>
+          <!--  <div class="form-group">
+                <button type="button" class="btn btn-secondary w-100" onclick="connectWithWallet('trustwallet', 'profile')" data-dismiss="modal">TrustWallet</button>
+            </div> -->
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary w-100" onclick="connectWithWallet('mathwallet', 'profile')" data-dismiss="modal">MathWallet</button>
+            </div>
+          <!--  <div class="form-group">
+                <button type="button" class="btn btn-secondary w-100" onclick="connectWithWallet('tokenpocket', 'profile')" data-dismiss="modal">TokenPocket</button>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary w-100" onclick="connectWithWallet('walletconnect', 'profile')" data-dismiss="modal">WalletConnect</button>
+            </div> -->
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary w-100" onclick="connectWithWallet('binance', 'profile')" data-dismiss="modal">Binance Chain Wallet</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary w-100" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+  </div>
+
 <% end %>

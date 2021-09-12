@@ -503,30 +503,102 @@ const BusdContractABI = [
 //   //"https://mainnet.infura.io/v3/515bc6d0df73416e938446fd12ae9234"
 //   //"https://bsc-dataseed.binance.org"
 // );
-// async function getWeb3() {
-  const web3 = new Web3(window.ethereum);
-//   try {
-//     // Request account access if needed
-//     await window.ethereum.enable();
-//     // Acccounts now exposed
-//     // resolve(web3);
-//   } catch (error) {
-//     reject(error);
-//   }
-//   return web3;
-// }
 
-async function getBalance(account) {
+const web3 = new Web3(window.ethereum);
+async function setProvider() {
+  const _waddress = getCurrentAddress();
+  const _wtype = getCurrentWalletType();
+  if(_wtype == "binance") {
+    await web3.setProvider(window.BinanceChain);
+  } else {
+    await web3.setProvider(window.ethereum);
+  }
+}
+async function changeNetwork() {
+  const _waddress = getCurrentAddress();
+  const _wtype = getCurrentWalletType();
+  const crypto = document.getElementById("crypto-name").innerHTML;
+  if(_wtype == "binance") {
+    if (typeof window.BinanceChain !== "undefined") { 
+      if(window.BinanceChain.chainId != 0x38) {
+        return BinanceChain.switchNetwork("bsc-mainnet")
+        .then((e) => {
+          getBalance(_waddress, crypto)
+          .then((balance) => {
+            document.getElementById("balance").innerHTML = "Balance: " + balance;
+          })
+          .catch(console.log);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      }   
+    }
+  } else /*if (_wtype == "metamask")*/ {
+    if (typeof window.ethereum !== "undefined") { 
+      if(window.ethereum.chainId != 0x38) {
+        return window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x38" }]
+        })
+        .then((e) => {
+          getBalance(_waddress, crypto)
+          .then((balance) => {
+            document.getElementById("balance").innerHTML = "Balance: " + balance;
+          })
+          .catch(console.log);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      }   
+    }
+  }
+}
+function getCurrentAddress() {
+  return $("#mycontainer").data("waddress");
+}
+function getCurrentWalletType() {
+  return $("#mycontainer").data("wtype");
+}
+async function connectNetwork() {
+  const _waddress = getCurrentAddress();
+  const _wtype = getCurrentWalletType();
+  if(_wtype == "binance") {
+    await connectWithWallet("binance", "");
+    await changeNetwork();
+  } else /*if (_wtype == "metamask")*/ {
+    await connectWithWallet("metamask", "");
+    await changeNetwork();
+  }
+  await setProvider();
+}
+async function displayBalance(crypto) {  
+  const _waddress = getCurrentAddress();
+  const _wtype = getCurrentWalletType();
+  getBalance(_waddress, crypto).then((e) => {
+    document.getElementById("balance").innerHTML = "Balance: " + e;
+  });
+}
+async function getBalance(account, crypto) {
+  const _waddress = getCurrentAddress();
+  const _wtype = getCurrentWalletType();
   var balance = 0;
-  // const web3 = await getWeb3();
+  //const web3 = getWeb3();
   if (web3 !== "undefined") {
-    await web3.eth.getBalance(account, function (err, result) {
-      if (err) {
-        console.log(err);
-      } else {
-        balance = web3.utils.fromWei(result, "ether");
-      }
-    });
+    if(crypto == "BNB") {
+      await web3.eth.getBalance(account, function (err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          balance = web3.utils.fromWei(result, "ether");
+        }
+      });
+    } else if(crypto == "BUSD") {      
+      const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
+      const bal = await BusdContract.methods.balanceOf(_waddress).call();
+      balance = web3.utils.fromWei(bal, "ether");
+    }
   }
   return balance;
 };
@@ -538,12 +610,14 @@ function onCryptoMenuClick(cryptotype) {
         "<%= asset_path('bnb.png')%>";
       document.getElementById("crypto-name").innerHTML = "BNB";
       setSupplyBtnStatus("bnb");
+      displayBalance("BNB");
       break;
     case "busd":
       document.getElementById("crypto-icon").src =
         "<%= asset_path('busd.png')%>";
       document.getElementById("crypto-name").innerHTML = "BUSD";
       setSupplyBtnStatus("busd");
+      displayBalance("BUSD");
       break;
     default:
     // code block
@@ -552,24 +626,20 @@ function onCryptoMenuClick(cryptotype) {
   document.getElementById("amountinput").value = "";
 }
 
-async function connectBinanceWithMetamask() {
-  await connectWithWallet("metamask", "");
-  await changeNetwork();
-}
-
 async function onbtnMax() {
-  await connectBinanceWithMetamask();
-  //const user = $("#mycontainer").data("source");
+  await connectNetwork();
+  const _waddress = getCurrentAddress();
+  const _wtype = getCurrentWalletType();
   const crypto = document.getElementById("crypto-name").innerHTML;
   if (crypto == "BNB") {
-    const balance = await getBalance(currentAccount);
+    const balance = await getBalance(_waddress, "BNB");
     if (balance - 0.01 > 0)
       document.getElementById("amountinput").value = balance - 0.01;
     else document.getElementById("amountinput").value = 0;
   } else {
-    //const web3 = await getWeb3();
+    //const web3 = getWeb3();
     const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
-    const balance = await BusdContract.methods.balanceOf(currentAccount).call();
+    const balance = await BusdContract.methods.balanceOf(_waddress).call();
     const ret = web3.utils.fromWei(balance, "ether");
     document.getElementById("amountinput").value = ret;
   }
@@ -577,16 +647,17 @@ async function onbtnMax() {
 
 async function setSupplyBtnStatus(crypto) {
   document.getElementById("supplybtn").innerHTML = "Supply";
-  await connectBinanceWithMetamask();
+  await connectNetwork();
   if (crypto == "busd") {
-    //const user = $("#mycontainer").data("source");
-    //const web3 = await getWeb3();
+    const _waddress = getCurrentAddress();
+    const _wtype = getCurrentWalletType();
+    //const web3 = getWeb3();
     const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
     const allowanceStr = await BusdContract.methods
-      .allowance(currentAccount, lockvaiyoaddress)
+      .allowance(_waddress, lockvaiyoaddress)
       .call();
     const balanceStr = await BusdContract.methods
-      .balanceOf(currentAccount)
+      .balanceOf(_waddress)
       .call();
     const allowance = new BigNumber(allowanceStr);
     const balance = new BigNumber(balanceStr);
@@ -598,14 +669,15 @@ async function setSupplyBtnStatus(crypto) {
 }
 
 async function approveBUSD() {
-  //const user = $("#mycontainer").data("source");
-  //const web3 = await getWeb3();
+  const _waddress = getCurrentAddress();
+  const _wtype = getCurrentWalletType();
+  //const web3 = getWeb3();
   const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
-  const balance = await BusdContract.methods.balanceOf(currentAccount).call();
+  const balance = await BusdContract.methods.balanceOf(_waddress).call();
   document.getElementById("supplybtn").disabled = true;
   await BusdContract.methods
     .approve(lockvaiyoaddress, balance)
-    .send({ from: currentAccount })
+    .send({ from: _waddress })
     .then((data) => {
       document.getElementById("supplybtn").innerHTML = "Supply";
       document.getElementById("supplybtn").disabled = false;
@@ -617,19 +689,20 @@ async function approveBUSD() {
 }
 
 async function deposit() {
-  await connectBinanceWithMetamask();
+  await connectNetwork();
   const approvestate = document.getElementById("supplybtn").innerHTML;
   if (approvestate == "Approve") {
     approveBUSD();
     return;
   }
-  //const user = $("#mycontainer").data("source");
+  const _waddress = getCurrentAddress();
+  const _wtype = getCurrentWalletType();
   let depositAmount = document.getElementById("amountinput").value;
-  if (depositAmount == "") return;
+  if (depositAmount == "") depositAmount = "0";
   if (depositAmount == null) return;
   const amount = new BigNumber(depositAmount + "e18");
   const crypto = document.getElementById("crypto-name").innerHTML;
-  //const web3 = await getWeb3();
+  //const web3 = getWeb3();
   if (crypto == "BNB") {
     const LockContract = new web3.eth.Contract(
       LockContractABI,
@@ -639,7 +712,7 @@ async function deposit() {
     LockContract.methods
       .depositBNB()
       .send({
-        from: currentAccount,
+        from: _waddress,
         value: amount, // in WEI, which is equivalent to 1 ether
       })
       .then((data) => {
@@ -658,7 +731,7 @@ async function deposit() {
     document.getElementById("supplybtn").disabled = true;
     LockContract.methods
       .depositBUSD(amount.toString())
-      .send({ from: currentAccount })
+      .send({ from: _waddress })
       .then((data) => {
         console.log(data);
         document.getElementById("supplybtn").disabled = false;

@@ -89,6 +89,7 @@ class UsersController < ApplicationController
     unless can_edit_user?(@user, current_user)
       params[:user][:name] = @user.name
       params[:user][:waddress] = @user.waddress
+      params[:user][:wtype] = @user.wtype
     end
   
     if (params[:user][:waddress] != current_user.waddress && User.exists?(waddress: params[:user][:waddress]))
@@ -96,7 +97,7 @@ class UsersController < ApplicationController
       return render ('edit')
     else
       if @user.update_attributes(user_params)
-        @user.update_attributes(email_verified: false) if user_params[:waddress] != @user.waddress
+        # @user.update_attributes(email_verified: false) if user_params[:waddress] != @user.waddress
   
         user_locale(@user)
   
@@ -188,7 +189,9 @@ class UsersController < ApplicationController
   end
 
   # GET /u/user_uid/getvaiyotokens
-  def getvaiyotokens
+  def getvaiyotokens    
+    $recive_user_waddress = current_user.waddress
+    $recive_user_wtype = current_user.wtype
   end
 
   # GET | POST /terms
@@ -260,7 +263,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :waddress, :image, :password, :password_confirmation,
+    params.require(:user).permit(:name, :email, :waddress, :wtype, :image, :password, :password_confirmation,
       :new_password, :provider, :accepted_terms, :language)
   end
 

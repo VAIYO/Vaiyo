@@ -3,11 +3,8 @@ $(document).on("turbolinks:load", async function () {
   var action = $("body").data("action");
 
   if (controller == "users" && action == "getvaiyotokens") {
-    await connectBinanceWithMetamask();
-    //const user = $("#mycontainer").data("source");
-    getBalance(currentAccount).then((e) => {
-      document.getElementById("balance").innerHTML = "Balance: " + e;
-    });
+    await connectNetwork();
+    displayBalance("BNB");
     document.getElementById("crypto-name").innerHTML = "BNB";
     document.getElementById("supplybtn").innerHTML = "Supply";
     document.getElementById("supplybtn").disabled = false;

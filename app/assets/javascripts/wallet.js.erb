@@ -49,27 +49,6 @@ async function setWallet(wallettype) {
     // code block
   }
 }
-async function changeNetwork() {
-  if (typeof window.ethereum !== "undefined") { 
-    if(window.ethereum.chainId != 0x38) {
-      //const user = $("#mycontainer").data("source");
-      return window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x38" }]
-      })
-      .then((e) => {
-        getBalance(currentAccount)
-        .then((balance) => {
-          document.getElementById("balance").innerHTML = "Balance: " + balance;
-        })
-        .catch(console.log);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    }   
-  }
-}
 async function connectWithWallet(wallettype, where) {
   switch (wallettype) {
     case "metamask":
@@ -86,10 +65,19 @@ async function connectWithWallet(wallettype, where) {
   }
 
   if (where == "signin") {
-    post("/u/login/", { waddress: currentAccount });
+    post("/u/login/", { waddress: currentAccount, wtype: wallettype });
   }
   if (where == "signup") {
     document.getElementById("txtwaddress").value = currentAccount;
+    document.getElementById("wtype").value = wallettype;
+  }
+  if (where == "profile") {
+    document.getElementById("txtwaddress1").value = currentAccount;
+    document.getElementById("wtype1").value = wallettype;
+  }
+  if (where == "old") {
+    document.getElementById("txtwaddress2").value = currentAccount;
+    document.getElementById("wtype2").value = wallettype;
   }
 }
 function handleAccountsChanged(accounts) {
@@ -118,10 +106,17 @@ async function connectMetamask() {
 
 async function connectBinance() {
   if (typeof window.BinanceChain !== "undefined") {
-    const accounts = await BinanceChain.request({
-      method: "eth_requestAccounts",
-    });
-    handleAccountsChanged(accounts);
+    try{
+      if(window.BinanceChain.chainId != 0x38) {
+        await BinanceChain.switchNetwork("bsc-mainnet");
+      }   
+      const accounts = await BinanceChain.request({
+        method: "eth_requestAccounts",
+      });
+      handleAccountsChanged(accounts);
+    } catch (e) {
+      console.log(e);
+    }
   }
 }
 

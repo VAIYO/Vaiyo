@@ -18,11 +18,11 @@
 # without losing all css
 %>
 
-<%= content_tag :div, '', id: 'mycontainer', data: { source: current_user } %>
+<%= content_tag :div, '', id: 'mycontainer', data: { waddress: $recive_user_waddress, wtype: $recive_user_wtype } %>
 <div class="container d-flex flex-column justify-content-center vaiyo-main">
   <div class="card vaiyo-card">
     <div class="card-body">
-      <h4 class="card-title">Get Vaiyo Tokens</h4>
+      <h4 class="card-title">Get VAIYO Tokens</h4>
       <div class="vaiyo-form">
       	<div class="vaiyo-calc-form">
         	<p class="text-right balance-font" id="balance"></p>

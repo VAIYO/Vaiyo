@@ -47,7 +47,7 @@
             <div class="form-group">
               <%= f.label :waddress, t("waddress"), class: "form-label" %>
               <div class="input-group">
-                <%= f.text_field :waddress, id: "txtwaddress", value: $recive_user, class: "form-control #{form_is_invalid?(@user, :waddress)}", placeholder: t("waddress"), readonly: true %>
+                <%= f.text_field :waddress, id: "txtwaddress", value: $recive_user_waddress, class: "form-control #{form_is_invalid?(@user, :waddress)}", placeholder: t("waddress"), readonly: true %>
                 <div class="input-group-append">
                   <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-bars"></i></button>
                 </div>
@@ -115,6 +115,9 @@
                 <div class="invalid-feedback d-block"><%= @user.errors.full_messages_for(:accepted_terms).first %></div>
               </div>
             <% end %>
+            <div style="display:none">
+              <%= f.text_field :wtype, id: "wtype", value: $recive_user_wtype, class: "form-control #{form_is_invalid?(@user, :wtype)}", placeholder: t("waddress"), readonly: true %>
+            </div>
             <div class="card-footer px-0 pb-0">
               <% if recaptcha_enabled? %>
                 <div class="form-group">
