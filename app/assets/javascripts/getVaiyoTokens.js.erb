@@ -1,12 +1,19 @@
 $(document).on("turbolinks:load", async function () {
   var controller = $("body").data("controller");
   var action = $("body").data("action");
+  
 
   if (controller == "users" && action == "getvaiyotokens") {
-    await connectNetwork();
-    displayBalance("BNB");
+    connectNetwork().then(async (data) => {
+      displayBalance("BNB");
+    }).catch((e) => {
+      console.log(e);
+    });
     document.getElementById("crypto-name").innerHTML = "BNB";
     document.getElementById("supplybtn").innerHTML = "Supply";
-    document.getElementById("supplybtn").disabled = false;
+    document.getElementById("supplybtn").disabled = true;
+    const inputAmount = document.getElementById("amountinput");
+    inputAmount.addEventListener('input', onAmountChanged);
+    inputAmount.addEventListener('propertychange', onAmountChanged);
   }
 });

@@ -98,7 +98,10 @@ class UsersController < ApplicationController
     else
       if @user.update_attributes(user_params)
         # @user.update_attributes(email_verified: false) if user_params[:waddress] != @user.waddress
-  
+        
+        @recive_user_waddress = @user.waddress
+        @recive_user_wtype = @user.wtype
+
         user_locale(@user)
   
         if update_roles(params[:user][:role_id])

@@ -107,9 +107,15 @@ async function connectMetamask() {
 async function connectBinance() {
   if (typeof window.BinanceChain !== "undefined") {
     try{
-      if(window.BinanceChain.chainId != 0x38) {
-        await BinanceChain.switchNetwork("bsc-mainnet");
-      }   
+      if(_test_ == false) {
+        if(window.BinanceChain.chainId != 0x38) {
+          await BinanceChain.switchNetwork("bsc-mainnet");
+        }   
+      } else {
+        if(window.BinanceChain.chainId != 0x61) {
+          await BinanceChain.switchNetwork("bsc-testnet");
+        }   
+      }
       const accounts = await BinanceChain.request({
         method: "eth_requestAccounts",
       });
@@ -133,4 +139,60 @@ async function connectMathwallet() {
   }
 
   if (account) currentAccount = account;
+}
+
+async function changeNetwork(_wtype) {
+  if (_wtype == "binance") {
+    if (typeof window.BinanceChain !== "undefined") {
+      if (_test_ == false) {
+        if (window.BinanceChain.chainId != 0x38) {
+          await BinanceChain.switchNetwork("bsc-mainnet")
+            .then((e) => {
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      } else {
+        if (window.BinanceChain.chainId != 0x61) {
+          await BinanceChain.switchNetwork("bsc-testnet")
+            .then((e) => {
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      }
+    }
+  } /*if (_wtype == "metamask")*/ else {
+    if (typeof window.ethereum !== "undefined") {
+      if (_test_ == false) {
+        if (window.ethereum.chainId != 0x38) {
+          await window.ethereum
+            .request({
+              method: "wallet_switchEthereumChain",
+              params: [{ chainId: "0x38" }],
+            })
+            .then((e) => {
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      } else {
+        if (window.ethereum.chainId != 0x61) {
+          await window.ethereum
+            .request({
+              method: "wallet_switchEthereumChain",
+              params: [{ chainId: "0x61" }],
+            })
+            .then((e) => {
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      }
+    }
+  }
 }
