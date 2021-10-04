@@ -18,6 +18,7 @@
 
 class MainController < ApplicationController
   include Registrar
+  
   # GET /
   def index
     # Store invite token
@@ -27,6 +28,11 @@ class MainController < ApplicationController
   end
 
   def index_new
+    @milestones = Roadmap.all.where('step <> 1').where(is_enable: 1).order('year ASC', 'week ASC', 'step ASC')
+    @firstStepsMilestone = Roadmap.all.where(step: 1).where(is_enable: 1).order('year ASC', 'week ASC', 'step ASC')
+    @partners = Partner.all.where(status: 1)
+    @sliders = Slider.all.where(status: 1)
+
     redirect_to home_page if current_user
   end
 end

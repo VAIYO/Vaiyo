@@ -338,3 +338,17 @@ function loadRoleColourSelector(role_colour, disabled) {
     });
   }
 }
+
+jQuery(document).ready(function () {
+  jQuery('.delete-roadmap').on('click', function () {
+    jQuery('.delete-roadmap-confirm').attr('action', jQuery(this).attr('data-path'));
+  })
+
+  jQuery('.delete-slider').on('click', function () {
+    jQuery('.delete-slider-confirm').attr('action', jQuery(this).attr('data-path'));
+  })
+
+  jQuery('.delete-partner').on('click', function () {
+    jQuery('.delete-partner-confirm').attr('action', jQuery(this).attr('data-path'));
+  })
+})

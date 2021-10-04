@@ -70,6 +70,30 @@ Rails.application.routes.draw do
     patch 'roles/order', to: 'admins#change_role_order', as: :admin_roles_order
     post '/role/:role_id', to: 'admins#update_role', as: :admin_update_role
     delete 'role/:role_id', to: 'admins#delete_role', as: :admin_delete_role
+
+    # Roadmaps
+    get '/roadmaps', to: 'roadmaps#index', as: :admin_roadmaps_index
+    get '/roadmaps/create', to: 'roadmaps#create', as: :admin_roadmaps_create
+    post '/roadmaps/store', to: 'roadmaps#store', as: :admin_roadmaps_store
+    get '/roadmaps/edit/:roadmap_id', to: 'roadmaps#edit', as: :admin_roadmaps_edit
+    post '/roadmaps/update/:roadmap_id', to: 'roadmaps#update', as: :admin_roadmaps_update
+    delete '/roadmaps/destroy/:roadmap_id', to: 'roadmaps#destroy', as: :admin_roadmaps_delete
+
+    # Sliders
+    get '/sliders', to: 'sliders#index', as: :admin_sliders_index
+    get '/sliders/create', to: 'sliders#create', as: :admin_sliders_create
+    post '/sliders/store', to: 'sliders#store', as: :admin_sliders_store
+    get '/sliders/edit/:slider_id', to: 'sliders#edit', as: :admin_sliders_edit
+    post '/sliders/update/:slider_id', to: 'sliders#update', as: :admin_sliders_update
+    delete '/sliders/destroy/:slider_id', to: 'sliders#destroy', as: :admin_sliders_delete
+
+    # Partners
+    get '/partners', to: 'partners#index', as: :admin_partners_index
+    get '/partners/create', to: 'partners#create', as: :admin_partners_create
+    post '/partners/store', to: 'partners#store', as: :admin_partners_store
+    get '/partners/edit/:partner_id', to: 'partners#edit', as: :admin_partners_edit
+    post '/partners/update/:partner_id', to: 'partners#update', as: :admin_partners_update
+    delete '/partners/destroy/:partner_id', to: 'partners#destroy', as: :admin_partners_delete
   end
 
   scope '/themes' do

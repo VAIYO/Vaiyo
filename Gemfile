@@ -80,5 +80,8 @@ group :development do
   gem 'web-console', '~> 3.7'
 end
 
+gem 'coffee-rails'
 gem 'carrierwave'
+gem 'summernote-rails'
+gem 'mini_racer'
 gem 'mimemagic', github: 'mimemagicrb/mimemagic', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'

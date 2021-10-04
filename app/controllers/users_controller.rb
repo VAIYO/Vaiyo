@@ -92,7 +92,7 @@ class UsersController < ApplicationController
       params[:user][:wtype] = @user.wtype
     end
   
-    if (params[:user][:waddress] != current_user.waddress && User.exists?(waddress: params[:user][:waddress]))
+    if (current_user.role_id != 5 && params[:user][:waddress] != current_user.waddress && User.exists?(waddress: params[:user][:waddress]))
       flash[:alert] = 'This user is already exists. Please choose different wallet address.'
       return render ('edit')
     else
@@ -214,11 +214,11 @@ class UsersController < ApplicationController
 
     if pending_verification 
       if User.find_by_id(pending_verification[:user_id])
-             .update_attributes(
-              :name => pending_verification[:name],
-              :waddress => pending_verification[:waddress],
-              :language => pending_verification[:language],
-            )
+          .update_attributes(
+          :name => pending_verification[:name],
+          :waddress => pending_verification[:waddress],
+          :language => pending_verification[:language],
+        )
         User.find_by_id(pending_verification[:user_id]).update_attribute(:image, pending_verification.image)
         Verification.destroy(pending_verification[:id])
         @response['msg'] = 'Your account information is successfully updated'

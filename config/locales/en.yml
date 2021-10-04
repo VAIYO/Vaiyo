@@ -22,6 +22,7 @@ en:
       user:
         accepted_terms: "Terms and Conditions"
         email: Email
+        affiliate_link: Affiliate Link
         waddress: Wallet address
         name: Name
         password: Password
@@ -557,6 +558,12 @@ en:
       disclaimer: If you choose to delete your account, it will <b>NOT</b> be recoverable. All information regarding your account, including settings, rooms, and recording will be removed.
       subtitle: Permanently Delete your Account
       title: Delete Account
+    roadmap: 
+      title: Roadmaps
+    slider: 
+      title: Sliders
+    partner: 
+      title: Partners
     password:
       confirmation: New Password Confirmation
       new: New Password
@@ -589,3 +596,67 @@ en:
     signin: Please sign in to access your account.
     title: Verify your email
     verification: Verification
+  
+  roadmap:
+    form:
+      create: Create Milestone
+      edit: Edit Milestone
+      manage: Manage Milestones
+    table: 
+      year: Year
+      week: Week
+      step: Step
+      milestone: Milestone
+      description: Description
+      status: Status
+      milestone_status: Select Milestone Status
+      milestone_enable_status: Do you want to enable on front side?
+      created: Milestone Created Successfully
+      updated: Milestone Updated Successfully
+      deleted: Milestone Deleted Successfully
+    button:
+      create: Create
+      edit: Update
+    modal:
+      delete_title: Are you sure want to delete this milestone?
+      delete_btn: Yes, Please Delete
+
+  slider:
+    form:
+      create: Create Slider
+      edit: Edit Slider
+      manage: Manage Sliders
+    table: 
+      title: Title
+      content: Content
+      link: Link
+      status: Status
+      created: Slider Created Successfully
+      updated: Slider Updated Successfully
+      deleted: Slider Deleted Successfully
+    button:
+      create: Create
+      edit: Update
+    modal:
+      delete_title: Are you sure want to delete this slider?
+      delete_btn: Yes, Please Delete
+
+  partner:
+    form:
+      create: Create Partner
+      edit: Edit Partner
+      manage: Manage Partners
+    table: 
+      name: Name
+      logo: Logo
+      replacement_logo: Replacement Logo
+      status: Status
+      created: Partner Created Successfully
+      updated: Partner Updated Successfully
+      deleted: Partner Deleted Successfully
+    button:
+      create: Create
+      edit: Update
+    modal:
+      delete_title: Are you sure want to delete this partner?
+      delete_btn: Yes, Please Delete

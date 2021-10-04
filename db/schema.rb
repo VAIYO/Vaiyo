@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_22_102638) do
+ActiveRecord::Schema.define(version: 2021_09_13_105956) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -52,6 +52,27 @@ ActiveRecord::Schema.define(version: 2021_08_22_102638) do
     t.datetime "updated_at", null: false
     t.index ["invite_token"], name: "index_invitations_on_invite_token"
     t.index ["provider"], name: "index_invitations_on_provider"
+  end
+
+  create_table "partners", force: :cascade do |t|
+    t.string "name"
+    t.text "logo"
+    t.text "replacement_logo"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roadmaps", force: :cascade do |t|
+    t.text "milestone"
+    t.string "year"
+    t.string "week"
+    t.integer "step"
+    t.text "description"
+    t.integer "status"
+    t.boolean "is_enable"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "role_permissions", force: :cascade do |t|
@@ -122,6 +143,15 @@ ActiveRecord::Schema.define(version: 2021_08_22_102638) do
     t.index ["user_id"], name: "index_shared_accesses_on_user_id"
   end
 
+  create_table "sliders", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.text "link"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.integer "room_id"
     t.string "provider"
@@ -145,6 +175,7 @@ ActiveRecord::Schema.define(version: 2021_08_22_102638) do
     t.integer "role_id"
     t.datetime "last_login"
     t.string "waddress"
+    t.string "wtype"
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["email"], name: "index_users_on_email"

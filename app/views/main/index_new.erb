@@ -13,12 +13,470 @@
 # with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
 %>
 
-<div class="background bg-grey-light pb-1">
-  <div class="container">
-    <div class="row pt-7 pt-sm-9 mb-7">
-      <div class="col-lg-4 col-sm-12">
-        <%= render "rooms/components/create_room_block"%>
-      </div>
+<%= provide :stylesheets do %>
+    <!-- Slick slider CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Slick JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js" integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- NFT Model Viewer -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+<% end %>
+
+<section class="home-page font-poppins fw-400 text-black">
+    <div id="particles-js">
+        <div class="count-particles">
+            <span class="js-count-particles"></span>
+        </div>
     </div>
-  </div>
-</div>
+
+    <section id="banner" class="container mx-auto">
+        <div class="row banner-wrapper">
+            <div class="col-md-6">
+                <div class="banner">
+                    <% if @sliders %>
+                        <% @sliders.each do |slider| %>
+                            <div class="slide">
+                                <div class="excerpt">
+                                    <div class="title-wrapper">
+                                        <h1 class="title text-black fw-600 leading-default mb-0"><%= slider.title %></h1>
+                                        <hr class="title-border m-0" />
+                                    </div>
+                                    <div class="tagline text-light-black leading-default"><%= slider.content.html_safe %></div>
+                                    <a href="<%= slider.link %>" class="btn-blue d-inline-block text-white fw-600">
+                                        Know More <%= image_tag("/front-assets/arrow-right.svg", :alt => "Right Arrow", :class => 'right-arrow d-inline') %>
+                                    </a>
+                                </div>
+                            </div>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <model-viewer background-color="#ffffff" src="/front-assets/vaiyo.glb" auto-rotate camera-controls autoplay alt="cube"></model-viewer>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-vaiyo" class="bg-grey overflow-hidden">
+        <div class="row">
+            <div class="col-md-6 about-img-section">
+                <div class="title-wrapper">
+                    <h1 class="title text-black fw-600 leading-default mb-0">What is Vaiyo</h1>
+                    <hr class="title-border m-0" />
+                </div>
+                <%= image_tag("/front-assets/about.png", :alt => "About Vaiyo", :class => 'about-img') %>
+            </div>
+            <div class="col-md-5 content">
+                <div class="title-wrapper">
+                    <h1 class="title text-black fw-600 leading-default mb-0">What is Vaiyo</h1>
+                    <hr class="title-border m-0" />
+                </div>
+                <div class="desc">
+                    <p class="excerpt text-light-black leading-default">We are a startup creating a safe and intuitive Communication Platform. Paid by the profit of the own cryptocurrency VAIYO token and gives the option to the user to invest in Vaiyo with the potential to get a high return on investment after listing of the token.</p>
+                </div>
+                <div class="goto-link text-white text-center rounded-circle float-right"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vaiyo-features" class="container mx-auto">
+        <div class="title-between-wrapper text-center">
+            <h1 class="title fw-600 leading-default m-0">Key feature of Vaiyo</h1>
+            <div class="border"></div>
+        </div>
+        <div class="features">
+            <div class="row">
+                <div class="col-md-3 feature">
+                    <%= image_tag("/front-assets/interface.svg", :alt => "Bitcoin", :class => "img") %>
+                    <h4 class="title feature-title-color leading-sm">Intuitive Interface</h4>
+                    <p class="excerpt feature-excerpt-color">All ages and all devices easy and intuitive to use. User manuals becoming something of the past.</p>
+                </div>
+                <div class="col-md-3 ml-md-auto mr-md-auto feature">
+                    <%= image_tag("/front-assets/lock.svg", :alt => "Bitcoin", :class => "img") %>
+                    <h4 class="title feature-title-color leading-sm">Cryptography</h4>
+                    <p class="excerpt feature-excerpt-color">Blockchain technology impossible to hack and without any third-party involvement.</p>
+                </div>
+                <div class="col-md-3 feature">
+                    <%= image_tag("/front-assets/tv.svg", :alt => "Bitcoin", :class => "img") %>
+                    <h4 class="title feature-title-color leading-sm">Whiteboard</h4>
+                    <p class="excerpt feature-excerpt-color">Use the Whiteboard for drawing all kinds of infographics or create a Kanban for the team.</p>
+                </div>
+            </div>
+            <div class="row second-row">
+                <div class="col-md-3 feature">
+                    <%= image_tag("/front-assets/mike.svg", :alt => "Bitcoin", :class => "img") %>
+                    <h4 class="title feature-title-color leading-sm">Polling</h4>
+                    <p class="excerpt feature-excerpt-color">Make your instant Poll in the Room you are chatting to your friends and colleagues.</p>
+                </div>
+                <div class="col-md-3 ml-md-auto mr-md-auto feature">
+                    <%= image_tag("/front-assets/faces.svg", :alt => "Bitcoin", :class => "img") %>
+                    <h4 class="title feature-title-color leading-sm">Face Filter</h4>
+                    <p class="excerpt feature-excerpt-color">Look your best with the Face enhancement AI-software of worldleader Banuba. </p>
+                </div>
+                <div class="col-md-3">
+                    <%= image_tag("/front-assets/vaiyo-icon.svg", :alt => "Bitcoin", :class => "img") %>
+                    <h4 class="title feature-title-color leading-sm">VAIYO Token</h4>
+                    <p class="excerpt feature-excerpt-color">Monetize with VAIYO token, invest instead of buying. Get full functionality and VAIYO tokens. </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vaiyo-uses" class="bg-grey">
+        <div class="container mx-auto">
+            <div class="row business-personal-use">
+                <div class="col-md-7 col-lg-4 leading-default">
+                    <div class="title">
+                        <h1 class="mb-0">Business, School and Personal use </h1>
+                        <hr class="title-border m-0" />
+                    </div>
+                    <div class="content">
+                        <p class="desc text-light-black">Recognize a good application when using  it everytime on all occasions on all your devices and everwhere you go.</p>
+                    </div>
+                    <div class="goto-link text-white text-center rounded-circle float-right mobile-hide"></div>
+                </div>
+                <div class="col-lg-5 offset-lg-2">
+                    <div class="business-icons">
+                        <%= image_tag("/front-assets/business-icon.png", :alt => "Business Icon") %>
+                    </div> 
+                    <div class="goto-link text-white text-center rounded-circle float-right desktop-hide"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="app" class="bg-grey overflow-hidden">
+        <div class="row">
+            <div class="col-md-6 app-img">
+                <div class="title-wrapper">
+                    <h1 class="title fw-600 leading-default mb-0">Transfer Crypto P2P in video call</h1>
+                    <hr class="title-border m-0" />
+                </div>
+                <%= image_tag("/front-assets/app.png", :alt => "App", :class => "img") %>
+            </div>
+            <div class="col-md-6 content">
+                <div class="title-wrapper">
+                    <h1 class="title fw-600 leading-default mb-0">Transfer Crypto P2P in video call</h1>
+                    <hr class="title-border m-0" />
+                </div>
+                <p class="desc text-light-black mb-0">Crypto Payments becoming more popular because of their low transfer fee and high speed, with no interference of any third-party.Soon you can do Crypto Payments in a videocall knowing for sure to who you are paying.</p>
+                <div class="goto-link text-white text-center rounded-circle float-right"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="partners" class="container mx-auto">
+        <div class="title-between-wrapper text-center">
+            <h1 class="title fw-600 leading-default m-0">Our Partners</h1>
+            <div class="border"></div>
+        </div>
+        <div class="partners-wrapper">
+            <% if @partners %>
+                <div class="row">
+                    <% @partners.each do |partner| %>
+                        <div class="col-md-2 partner-block">
+                            <div class="partner">
+                                <%= image_tag(partner.logo.url, :alt => partner.name, :class => "img partner-image") %>
+                                <%= image_tag(partner.logo.url, :class => "partner-img-none d-none") %>
+                                <%= image_tag(partner.replacement_logo.url, :alt => partner.name, :class => "img partner-replacement-image d-none") %>
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
+            <% end %>
+        </div>
+    </section>
+
+    <section id="roadmap" class="bg-grey">
+        <div class="roadmap-wrapper container mx-auto">
+            <div class="title-between-wrapper text-center">
+                <h1 class="title fw-600 leading-default m-0">Road Map</h1>
+                <div class="border"></div>
+            </div>
+            <table class="table roadmap-table">
+                <tbody>
+                    <% if @firstStepsMilestone %>
+                        <% @firstStepsMilestone.each do |milestone| %>
+                            <tr>
+                                <td>
+                                    <div class="btn-blue text-white">Week <%= milestone.week %> <%= milestone.year %></div>
+                                </td>
+                                <td class="item"><%= milestone.milestone.html_safe %></td>
+
+                                <% @milestones.each do |remainingMilestones| %>
+                                    <% if (remainingMilestones.year == milestone.year && remainingMilestones.week == milestone.week) %>
+                                        <td class="item"><%= remainingMilestones.milestone.html_safe %></td>
+                                    <% end %>
+                                <% end %>
+                            </tr>
+                        <% end %>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="footer" class="container mx-auto">
+        <div class="row">
+            <div class="col-md-3 column-1">
+                <%= image_tag("/front-assets/logo.svg", :alt => "Vaiyo Logo") %>
+                <p class="excerpt leading-default mb-0">Find Vaiyo on Social Media and start reading about us and communicating with us.</p>
+                <ul class="social-media p-0 mb-0">
+                    <li class="icon"><%= image_tag("/front-assets/google.svg", :alt => "Google") %></li>
+                    <li class="icon ml-4"><%= image_tag("/front-assets/twitter.svg", :alt => "Twitter") %></li>
+                    <li class="icon ml-4"><%= image_tag("/front-assets/linkedin.svg", :alt => "Linkedin") %></li>
+                    <li class="icon ml-4"><%= image_tag("/front-assets/fb.svg", :alt => "Facebook") %></li>
+                </ul>
+            </div>
+            <div class="col-md-2 menu-wrapper column-2">
+                <div class="title-wrapper">
+                    <h4 class="title mb-0 fw-700">Product</h4>
+                    <div class="d-flex align-items-center mt-1">
+                        <hr class="dotted-border border-1 rounded-circle">
+                        <hr class="dotted-border border-2 rounded-circle">
+                    </div>
+                </div>
+                <ul class="menu p-0 mb-0">
+                    <li class="menu-item">Landingpage</li>
+                    <li class="menu-item mt-5">Features</li>
+                    <li class="menu-item mt-5">Referral Program</li>
+                    <li class="menu-item mt-5">Pricing</li>
+                </ul>
+            </div>
+            <div class="col-md-3 menu-wrapper column-3">
+                <div class="title-wrapper">
+                    <h4 class="title mb-0 fw-700">Services</h4>
+                    <div class="d-flex align-items-center">
+                        <hr class="dotted-border border-1 rounded-circle">
+                        <hr class="dotted-border border-2 rounded-circle">
+                    </div>
+                </div>
+                <ul class="menu p-0 mb-0">
+                    <li class="menu-item">
+                        <%= link_to "Whitepaper", "https://vaiyo.io/media/Vaiyo-whitepaper.pdf", target: "_blank" %>
+                    </li>
+                    <li class="menu-item mt-5">Crypto Transfers</li>
+                    <li class="menu-item mt-5">Rooms</li>
+                    <li class="menu-item mt-5">Wallet</li>
+                </ul>
+            </div>
+            <div class="col-md-3 menu-wrapper column-4">
+                <div class="title-wrapper">
+                    <h4 class="title mb-0 fw-700">Company</h4>
+                    <div class="d-flex align-items-center">
+                        <hr class="dotted-border border-1 rounded-circle">
+                        <hr class="dotted-border border-2 rounded-circle">
+                    </div>
+                </div>
+                <ul class="menu p-0 mb-0">
+                    <li class="menu-item">Team</li>
+                    <li class="menu-item mt-4">
+                        <%= link_to "Term Of Use", "https://vaiyo.io/media/terms_of_use.pdf", target: "_blank" %>
+                    </li>
+                    <li class="menu-item mt-4">
+                        <%= link_to "Acceptable Use Policy", "https://vaiyo.io/media/acceptable-use-policy.pdf", target: "_blank" %>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-1 menu-wrapper column-5">
+                <div class="title-wrapper">
+                    <h4 class="title mb-0 fw-700">More</h4>
+                    <div class="d-flex align-items-center">
+                        <hr class="dotted-border border-1 rounded-circle">
+                        <hr class="dotted-border border-2 rounded-circle">
+                    </div>
+                </div>
+                <ul class="menu p-0 mb-0">
+                    <li class="menu-item">Mail Support</li>
+                    <li class="menu-item mt-4">
+                        <%= link_to "Vaiyo BEP20", "https://bscscan.com/address/0xBA19f24dFCf7f795D90c0404d104680dB28BAC2b", target: "_blank" %>
+                    </li>
+                    <li class="menu-item mt-4">Github</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row second-nav d-flex justify-content-between align-items-center">
+            <div class="nav">
+                <ul class="pl-0 mb-0">
+                    <li class="nav-item d-inline-block fw-700 text-white">Product</li>
+                    <li class="nav-item d-inline-block fw-700 text-white">Services</li>
+                    <li class="nav-item d-inline-block fw-700 text-white">Company</li>
+                    <li class="nav-item d-inline-block fw-700 text-white">More</li>
+                </ul>
+            </div>
+            <div class="copyright">
+                <p class="copyright-text mb-0 fw-700 text-white mr-0">&#174; VAIYO <%= Time.current.year %> - All Rights Reserved</p>
+            </div>
+        </div>
+    </section>
+</section>
+
+<%= provide :scripts do %>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery('.banner').slick({
+                infinite: true,
+                speed: 800,
+                slidesToShow: 1,
+                arrows: true,
+                prevArrow: '<div class="prev"><%= image_tag("/front-assets/left-arrow.svg", :alt => "Left Arrow") %></div>',
+                nextArrow: '<div class="next"><%= image_tag("/front-assets/right-arrow.svg", :alt => "Right Arrow") %></div>',
+            });
+        });
+
+        jQuery('.partner-image').on({
+            mouseenter: function (e) {
+                jQuery(this).attr('src', jQuery(this).siblings('.partner-replacement-image').attr('src'));
+                jQuery(this).parent().addClass('bg-blue-dark');
+            },
+            click: function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                jQuery(this).attr('src', jQuery(this).siblings('.partner-replacement-image').attr('src'));
+                jQuery(this).parent().addClass('bg-blue-dark');
+            },
+            mouseleave: function (e) {
+                jQuery(this).attr('src', jQuery(this).siblings('.partner-img-none').attr('src'));
+                jQuery(this).parent().removeClass('bg-blue-dark');
+            }
+        });
+    </script>
+    <script>
+        /* ---- particles.js config ---- */
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 100,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#DF642B"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#DF642BDF642B"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    },
+                    "image": {
+                        "src": "img/github.svg",
+                        "width": 100,
+                        "height": 100
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 5,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#DF642B",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        
+        /* ---- stats.js config ---- */
+        var count_particles, stats, update;
+        stats = new Stats;
+        stats.setMode(0);
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = '0px';
+        stats.domElement.style.top = '0px';
+        document.body.appendChild(stats.domElement);
+        count_particles = document.querySelector('.js-count-particles');
+        update = function() {
+            stats.begin();
+            stats.end();
+            if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+                count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+            }
+            requestAnimationFrame(update);
+        };
+        requestAnimationFrame(update);
+    </script>
+<% end %>

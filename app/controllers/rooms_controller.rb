@@ -77,7 +77,7 @@ class RoomsController < ApplicationController
         return redirect_to cant_create_rooms_path
       end
 
-      # User is allowed to have rooms
+      # User is allowed to have rooms 
       @search, @order_column, @order_direction, recs =
         recordings(@room.bbb_id, params.permit(:search, :column, :direction), true)
 

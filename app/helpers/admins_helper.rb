@@ -144,4 +144,16 @@ module AdminsHelper
   def edit_disabled
     @edit_disabled ||= @selected_role.priority <= current_user.role.priority
   end
+
+  # Retrieve Milestone Status
+  def milestone_status(status)
+    case status
+    when 1
+      'Achived'
+    when 2
+      'Delay'
+    when 3
+      'Future'
+    end
+  end
 end

@@ -180,5 +180,8 @@ module Greenlight
 
     # Default admin password
     config.admin_password_default = ENV['ADMIN_PASSWORD'] || 'administrator'
+
+    # Roadmap Year Array
+    config.roadmap_road_array = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
   end
 end

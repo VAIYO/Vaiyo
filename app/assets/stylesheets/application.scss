@@ -38,6 +38,7 @@
 @import "font-awesome";
 @import "monolith.min.scss";
 @import "bootstrap-select.min";
+@import "summernote-bs4";
 
 @import "utilities/variables";
 @import "admins";
@@ -46,12 +47,15 @@
 @import "sessions";
 @import "utilities/fonts";
 @import "users";
+@import "wallet";
+@import "HoldOn";
 
 * {
   outline: none !important;
 }
 
-html, body {
+html,
+body {
   font-family: "Source Sans Pro" !important;
   position: relative;
   width: 100%;
@@ -142,11 +146,11 @@ a {
 }
 
 input:focus {
-    border-color: $primary !important;
+  border-color: $primary !important;
 }
 
 .input-group button:focus {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .list-group-item-action.active {
@@ -176,7 +180,7 @@ table {
   }
 }
 
-.cursor-pointer{
+.cursor-pointer {
   cursor: pointer;
 }
 
@@ -185,7 +189,7 @@ table {
 }
 
 .btn i {
-  transition: all .15s;
+  transition: all 0.15s;
 }
 
 .vaiyo-icon {
@@ -202,4 +206,15 @@ table {
   height: 40px;
   width: 40px;
   display: inline-block;
+}
+
+.partner-logo {
+  max-width: 8rem;
+  max-height: 8rem;
+}
+
+html, body, #indacoin-widget {
+  height: 100%;
+  width: 100%;
+  margin: 0;
 }

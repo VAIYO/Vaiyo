@@ -1,0 +1,89 @@
+<%
+# BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
+# Copyright (c) 2018 BigBlueButton Inc. and by respective authors (see below).
+# This program is free software; you can redistribute it and/or modify it under the
+# terms of the GNU Lesser General Public License as published by the Free Software
+# Foundation; either version 3.0 of the License, or (at your option) any later
+# version.
+#
+# BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+# You should have received a copy of the GNU Lesser General Public License along
+# with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+%>
+
+<div class="container pt-6">
+  <%= render "shared/components/subtitle", subtitle: t("administrator.title"), search: false %>
+
+  <div class="row">
+    <div class="col-lg-3 mb-4">
+      <%= render "admins/components/menu_buttons" %>
+    </div>
+    <div id="edit_user" class="col-lg-9">
+      <%= content_tag(:div, id: 'partners', class: "setting-view card") do %>
+        <div class="card-body p-6">
+          <div class="card-title text-primary">
+            <div class="form-group">
+              <%= render "shared/components/subtitle", subtitle: t("partner.form.create"), search: false %>
+            </div>
+          </div>
+          <%= form_for :partner, url: admin_partners_update_path, method: :post do |f|  %>
+            <%= hidden_field_tag :setting, "account" %>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-6 mb-4">
+                  <%= f.label :name, t("partner.table.name"), class: "form-label" %>
+                  <div class="input-icon">
+                    <%= f.text_field :name, class: "form-control", placeholder: t("partner.table.name"), value: @partner['name'] %>
+                  </div>
+                </div>
+
+                <div class="col-sm-6 mb-4">
+                  <%= f.label :status, t("partner.table.status"), class: "form-label" %>
+                  <div class="input-icon">
+                    <%= f.select :status, [["Yes", "1"], ["No", "0"]], {selected: @partner['status']}, class: "form-control" %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-6 mb-4">
+                  <%= f.label :image, t("partner.table.logo"), class: "form-label mt-5" %>
+                  <div class="col-5 col-sm-4">
+                    <% if @partner.logo.blank? %>
+                      <span class="avatar avatar-xxl mr-5 mt-2 bg-primary">Logo</span>
+                    <% else %>
+                      <%= image_tag(@partner.logo.url, class: "partner-logo") %>
+                    <% end %>
+                  </div>
+                  <div class="col-7 col-sm-10 mt-5">
+                    <%= f.file_field :logo %>
+                  </div>
+                </div>
+
+                <div class="col-sm-6 mb-4">
+                  <%= f.label :image, t("partner.table.replacement_logo"), class: "form-label mt-5" %>
+                  <div class="col-5 col-sm-4">
+                    <% if @partner.replacement_logo.blank? %>
+                      <span class="avatar avatar-xxl mr-5 mt-2 bg-primary">Logo</span>
+                    <% else %>
+                      <%= image_tag(@partner.replacement_logo.url, class: "partner-logo") %>
+                    <% end %>
+                  </div>
+                  <div class="col-7 col-sm-10 mt-5">
+                    <%= f.file_field :replacement_logo %>
+                  </div>
+                </div>
+              </div>
+
+            <div class="card-footer pr-0">
+              <%= link_to "Cancel", admin_partners_index_path, class: "btn btn-danger float-right ml-2" %>
+              <%= f.submit t("partner.button.edit"), class: "btn btn-primary float-right ml-4" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

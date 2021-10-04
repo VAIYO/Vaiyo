@@ -1,239 +1,16 @@
-const _test_ = true;
-const vaiyotokenaddress = "0x87d548975a904Fbb23b0fD773eaA789f6e671Cb1"; //test
-const lockvaiyoaddress = "0xA5c4Dc56b6E82Fcb1AE68A69f87026d1729621E9"; //test
-const busdAddress = "0x8301F2213c0eeD49a7E28Ae4c3e91722919B8B47"; //test
+/////////////////////////////////////////////////////////////////////////////
+// testnet
+/////////////////////////////////////////////////////////////////////////////
 
-const LockContractABI = [
-  {
-    inputs: [
-      { internalType: "contract VaiyoToken", name: "_token", type: "address" },
-    ],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "previousOwner",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "OwnershipTransferred",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "token",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "Recovered",
-    type: "event",
-  },
-  {
-    inputs: [{ internalType: "address", name: "add", type: "address" }],
-    name: "checkTime",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "claimTokens",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "depositBNB",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "amnt", type: "uint256" }],
-    name: "depositBUSD",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "depositsBNB",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "depositsBUSD",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "deposittimes",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "bnbAmount", type: "uint256" }],
-    name: "getBUSDAmount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getBUSDPerBNB",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "busdAmount", type: "uint256" }],
-    name: "getTokensAmount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "lockedVAIYO",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "minDepositAmount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "owner",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "priceFeed",
-    outputs: [
-      {
-        internalType: "contract AggregatorV3Interface",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "add", type: "address" }],
-    name: "read",
-    outputs: [
-      { internalType: "uint256", name: "", type: "uint256" },
-      { internalType: "uint256", name: "", type: "uint256" },
-      { internalType: "uint256", name: "", type: "uint256" },
-      { internalType: "bool", name: "", type: "bool" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "tokenAddress", type: "address" },
-      { internalType: "uint256", name: "tokenAmount", type: "uint256" },
-    ],
-    name: "recoverBEP20",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "tokenAmount", type: "uint256" }],
-    name: "recoverBUSD",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
-    name: "releaseFunds",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "releaseFundsAll",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "token",
-    outputs: [
-      { internalType: "contract VaiyoToken", name: "", type: "address" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalLockedVAIYO",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totallockTime",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-];
+/*
+const _test_ = true;
+const vaiyotokenaddress = "0xf1a491f72D716F3aCDCc478227A657C2d179956b"; //test
+const lockvaiyoaddress = "0x63F1C07767A2f91871C42a6DB17Ed3CCA1436E6d"; //test
+const busdAddress = "0x8301F2213c0eeD49a7E28Ae4c3e91722919B8B47"; //test
+const BNBPriceFeedAddress = "0x2514895c72f50D8bd4B4F9b1110F0D6bD2c97526"; //test
+const BUSDPriceFeedAddress = "0x9331b55D9830EF609A2aBCfAc0FBCE050A52fdEa"; //test
+
+const LockContractABI = [{"inputs":[{"internalType":"contract VaiyoToken","name":"_token","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"token","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Recovered","type":"event"},{"inputs":[],"name":"claimTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"depositBNB","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amnt","type":"uint256"}],"name":"depositBUSD","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"depositsBNB","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"depositsBUSD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"deposittimes","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"bnbAmount","type":"uint256"}],"name":"getBUSDAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBUSDPerBNB","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"lockedVAIYO","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"minDepositAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"add","type":"address"}],"name":"read","outputs":[{"internalType":"uint256","name":"_depositBNB","type":"uint256"},{"internalType":"uint256","name":"_depositBUSD","type":"uint256"},{"internalType":"uint256","name":"_lockedVAIYO","type":"uint256"},{"internalType":"uint256","name":"_restTime","type":"uint256"},{"internalType":"bool","name":"_checkTime","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"tokenAddress","type":"address"},{"internalType":"uint256","name":"tokenAmount","type":"uint256"}],"name":"recoverBEP20","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenAmount","type":"uint256"}],"name":"recoverBUSD","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"releaseFunds","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"releaseFundsAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalLockedVAIYO","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totallockTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"}];
 
 const BusdContractABI = [
   {
@@ -744,242 +521,25 @@ const VAIYOContractABI = [
   },
 ];
 
-/*
-const vaiyotokenaddress = "0xBA19f24dFCf7f795D90c0404d104680dB28BAC2b"; //main
-const lockvaiyoaddress = "0xE2E0C69A21a0d8550ca3FE8D6575c14B0c14D284"; //main
-const busdAddress = "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56";
+const BNBPriceFeedABI = [{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"},{"internalType":"address","name":"_accessController","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"int256","name":"current","type":"int256"},{"indexed":true,"internalType":"uint256","name":"roundId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"updatedAt","type":"uint256"}],"name":"AnswerUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"roundId","type":"uint256"},{"indexed":true,"internalType":"address","name":"startedBy","type":"address"},{"indexed":false,"internalType":"uint256","name":"startedAt","type":"uint256"}],"name":"NewRound","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"OwnershipTransferRequested","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[],"name":"acceptOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"accessController","outputs":[{"internalType":"contract AccessControllerInterface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"aggregator","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"}],"name":"confirmAggregator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"description","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_roundId","type":"uint256"}],"name":"getAnswer","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint80","name":"_roundId","type":"uint80"}],"name":"getRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_roundId","type":"uint256"}],"name":"getTimestamp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestAnswer","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestRound","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestTimestamp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address payable","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint16","name":"","type":"uint16"}],"name":"phaseAggregators","outputs":[{"internalType":"contract AggregatorV2V3Interface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"phaseId","outputs":[{"internalType":"uint16","name":"","type":"uint16"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"}],"name":"proposeAggregator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"proposedAggregator","outputs":[{"internalType":"contract AggregatorV2V3Interface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint80","name":"_roundId","type":"uint80"}],"name":"proposedGetRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"proposedLatestRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_accessController","type":"address"}],"name":"setController","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_to","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"version","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
+const BUSDPriceFeedABI = [{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"},{"internalType":"address","name":"_accessController","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"int256","name":"current","type":"int256"},{"indexed":true,"internalType":"uint256","name":"roundId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"updatedAt","type":"uint256"}],"name":"AnswerUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"roundId","type":"uint256"},{"indexed":true,"internalType":"address","name":"startedBy","type":"address"},{"indexed":false,"internalType":"uint256","name":"startedAt","type":"uint256"}],"name":"NewRound","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"OwnershipTransferRequested","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[],"name":"acceptOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"accessController","outputs":[{"internalType":"contract AccessControllerInterface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"aggregator","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"}],"name":"confirmAggregator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"description","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_roundId","type":"uint256"}],"name":"getAnswer","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint80","name":"_roundId","type":"uint80"}],"name":"getRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_roundId","type":"uint256"}],"name":"getTimestamp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestAnswer","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestRound","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestTimestamp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint16","name":"","type":"uint16"}],"name":"phaseAggregators","outputs":[{"internalType":"contract AggregatorV2V3Interface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"phaseId","outputs":[{"internalType":"uint16","name":"","type":"uint16"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"}],"name":"proposeAggregator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"proposedAggregator","outputs":[{"internalType":"contract AggregatorV2V3Interface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint80","name":"_roundId","type":"uint80"}],"name":"proposedGetRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"proposedLatestRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_accessController","type":"address"}],"name":"setController","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_to","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"version","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
+*/
 
-const LockContractABI = [
-  {
-    inputs: [
-      { internalType: "contract VaiyoToken", name: "_token", type: "address" },
-    ],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "previousOwner",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "OwnershipTransferred",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "token",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "Recovered",
-    type: "event",
-  },
-  {
-    inputs: [{ internalType: "address", name: "add", type: "address" }],
-    name: "checkTime",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "claimTokens",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "depositBNB",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "amnt", type: "uint256" }],
-    name: "depositBUSD",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "depositsBNB",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "depositsBUSD",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "deposittimes",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "bnbAmount", type: "uint256" }],
-    name: "getBUSDAmount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getBUSDPerBNB",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "busdAmount", type: "uint256" }],
-    name: "getTokensAmount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "minDepositAmount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "owner",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "priceFeed",
-    outputs: [
-      {
-        internalType: "contract AggregatorV3Interface",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "add", type: "address" }],
-    name: "read",
-    outputs: [
-      { internalType: "uint256", name: "", type: "uint256" },
-      { internalType: "uint256", name: "", type: "uint256" },
-      { internalType: "uint256", name: "", type: "uint256" },
-      { internalType: "bool", name: "", type: "bool" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "tokenAddress", type: "address" },
-      { internalType: "uint256", name: "tokenAmount", type: "uint256" },
-    ],
-    name: "recoverBEP20",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "tokenAmount", type: "uint256" }],
-    name: "recoverBUSD",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
-    name: "releaseFunds",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "releaseFundsAll",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "token",
-    outputs: [
-      { internalType: "contract VaiyoToken", name: "", type: "address" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalBNB",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalBUSD",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totallockTime",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-];
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+// mainnet
+/////////////////////////////////////////////////////////////////////////////
+
+
+const _test_ = false;
+const vaiyotokenaddress = "0xBA19f24dFCf7f795D90c0404d104680dB28BAC2b"; //main
+const lockvaiyoaddress = "0x65A8949073Dcd52E0d395e7F7C426276617AD287"; //main
+const busdAddress = "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"; //main
+const lockbotcontractaddress = "0x282F924d14776209309E279353eE11Ac5ca3f633"; //main
+const BNBPriceFeedAddress = "0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE"; //mainnet
+const BUSDPriceFeedAddress = "0xcBb98864Ef56E9042e7d2efef76141f15731B82f"; //mainnet
+const LockContractABI = [{"inputs":[{"internalType":"contract VaiyoToken","name":"_token","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"token","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Recovered","type":"event"},{"inputs":[],"name":"claimTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"depositBNB","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amnt","type":"uint256"}],"name":"depositBUSD","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"depositsBNB","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"depositsBUSD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"deposittimes","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"bnbAmount","type":"uint256"}],"name":"getBUSDAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBUSDPerBNB","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"lockedVAIYO","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"minDepositAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"add","type":"address"}],"name":"read","outputs":[{"internalType":"uint256","name":"_depositBNB","type":"uint256"},{"internalType":"uint256","name":"_depositBUSD","type":"uint256"},{"internalType":"uint256","name":"_lockedVAIYO","type":"uint256"},{"internalType":"uint256","name":"_restTime","type":"uint256"},{"internalType":"bool","name":"_checkTime","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"tokenAddress","type":"address"},{"internalType":"uint256","name":"tokenAmount","type":"uint256"}],"name":"recoverBEP20","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenAmount","type":"uint256"}],"name":"recoverBUSD","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"releaseFunds","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"releaseFundsAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalLockedVAIYO","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totallockTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"}];
 
 const BusdContractABI = [
   {
@@ -1596,13 +1156,19 @@ const VAIYOContractABI = [
     type: "function",
   },
 ];
-*/
+
+const BNBPriceFeedABI = [{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"},{"internalType":"address","name":"_accessController","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"int256","name":"current","type":"int256"},{"indexed":true,"internalType":"uint256","name":"roundId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"updatedAt","type":"uint256"}],"name":"AnswerUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"roundId","type":"uint256"},{"indexed":true,"internalType":"address","name":"startedBy","type":"address"},{"indexed":false,"internalType":"uint256","name":"startedAt","type":"uint256"}],"name":"NewRound","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"OwnershipTransferRequested","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[],"name":"acceptOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"accessController","outputs":[{"internalType":"contract AccessControllerInterface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"aggregator","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"}],"name":"confirmAggregator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"description","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_roundId","type":"uint256"}],"name":"getAnswer","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint80","name":"_roundId","type":"uint80"}],"name":"getRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_roundId","type":"uint256"}],"name":"getTimestamp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestAnswer","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestRound","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestTimestamp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint16","name":"","type":"uint16"}],"name":"phaseAggregators","outputs":[{"internalType":"contract AggregatorV2V3Interface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"phaseId","outputs":[{"internalType":"uint16","name":"","type":"uint16"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"}],"name":"proposeAggregator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"proposedAggregator","outputs":[{"internalType":"contract AggregatorV2V3Interface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint80","name":"_roundId","type":"uint80"}],"name":"proposedGetRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"proposedLatestRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_accessController","type":"address"}],"name":"setController","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_to","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"version","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
+const BUSDPriceFeedABI = [{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"},{"internalType":"address","name":"_accessController","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"int256","name":"current","type":"int256"},{"indexed":true,"internalType":"uint256","name":"roundId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"updatedAt","type":"uint256"}],"name":"AnswerUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"roundId","type":"uint256"},{"indexed":true,"internalType":"address","name":"startedBy","type":"address"},{"indexed":false,"internalType":"uint256","name":"startedAt","type":"uint256"}],"name":"NewRound","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"OwnershipTransferRequested","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[],"name":"acceptOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"accessController","outputs":[{"internalType":"contract AccessControllerInterface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"aggregator","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"}],"name":"confirmAggregator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"description","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_roundId","type":"uint256"}],"name":"getAnswer","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint80","name":"_roundId","type":"uint80"}],"name":"getRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_roundId","type":"uint256"}],"name":"getTimestamp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestAnswer","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestRound","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"latestTimestamp","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint16","name":"","type":"uint16"}],"name":"phaseAggregators","outputs":[{"internalType":"contract AggregatorV2V3Interface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"phaseId","outputs":[{"internalType":"uint16","name":"","type":"uint16"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_aggregator","type":"address"}],"name":"proposeAggregator","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"proposedAggregator","outputs":[{"internalType":"contract AggregatorV2V3Interface","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint80","name":"_roundId","type":"uint80"}],"name":"proposedGetRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"proposedLatestRoundData","outputs":[{"internalType":"uint80","name":"roundId","type":"uint80"},{"internalType":"int256","name":"answer","type":"int256"},{"internalType":"uint256","name":"startedAt","type":"uint256"},{"internalType":"uint256","name":"updatedAt","type":"uint256"},{"internalType":"uint80","name":"answeredInRound","type":"uint80"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_accessController","type":"address"}],"name":"setController","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_to","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"version","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}];
+
+
+/////////////////////////////////////////////////////////////////////////////
+
 // const web3 = new Web3(
 //   new Web3.providers.HttpProvider()
 //   //"https://mainnet.infura.io/v3/515bc6d0df73416e938446fd12ae9234"
 //   //"https://bsc-dataseed.binance.org"
 // );
-
+let nIntervId = 0;
 const web3 = new Web3(window.BinanceChain);
 async function setProvider() {
   const _waddress = getCurrentAddress();
@@ -1629,6 +1195,23 @@ async function getBUSDamountForBNB(bnbBalance) {
     .call();
   return busdAmount;
 }
+async function getBUSDPerBNB() {
+  const LockContract = new web3.eth.Contract(LockContractABI, lockvaiyoaddress);
+  const busdperBNB = await LockContract.methods
+    .getBUSDPerBNB()
+    .call();
+  return busdperBNB;
+}
+async function getBNBPrice() {
+  const priceFeed = new web3.eth.Contract(BNBPriceFeedABI, BNBPriceFeedAddress);
+  const bnbPrice = await priceFeed.methods.latestRoundData().call();
+  return bnbPrice;
+}
+async function getBUSDPrice() {
+  const priceFeed = new web3.eth.Contract(BUSDPriceFeedABI, BUSDPriceFeedAddress);
+  const busdPrice = await priceFeed.methods.latestRoundData().call();
+  return busdPrice;
+}
 async function connectNetwork() {
   const _waddress = getCurrentAddress();
   const _wtype = getCurrentWalletType();
@@ -1649,7 +1232,7 @@ async function displayBalance(crypto) {
     document.getElementById("balance").innerHTML = "Balance: " + nBal;
     if (nBal == 0) {
       document.getElementById("transactionstatus").innerHTML =
-        "BNB balance is zero.";
+        crypto + " balance is zero.";
     }
   });
   getVAIYOBalance(_waddress).then((e) => {
@@ -1795,7 +1378,6 @@ async function processAmountChanged(text) {
   const minAmount = new BigNumber("25e17");
   document.getElementById("supplybtn").disabled = true;
   if (amount.lt(0)) {
-    console.log("amount: ", amount.toString());
     return false;
   }
 
@@ -1808,6 +1390,8 @@ async function processAmountChanged(text) {
   bnbBalance = bnbBalance.multipliedBy(1e18);
   const busdAmt = await getBUSDamountForBNB(amount);
   let busdAmount = new BigNumber(busdAmt.toString());
+  const busdperBNB = await getBUSDPerBNB();
+  const minBNBAmount = 2.5 / busdperBNB;
   if (crypto == "BNB") {
     if (bnbBalance.lt(amount)) {
       document.getElementById("transactionstatus").innerHTML =
@@ -1816,19 +1400,19 @@ async function processAmountChanged(text) {
     }
     if (busdAmount.lt(minAmount)) {
       document.getElementById("transactionstatus").innerHTML =
-        "You must enter more than 2.5 BUSD.";
+        "You must enter above " + parseFloat(minBNBAmount).toFixed(4) + " BNB.";
       return false;
     }
   } else {
     if (bnbBalance.comparedTo(0) == 0) {
       document.getElementById("transactionstatus").innerHTML =
-        "BNB balance is zero.";
+        "BNB balance must be above the gas fee for a transaction.";
       return false;
     }
     const approvestate = document.getElementById("supplybtn").innerHTML;
     if (approvestate == "Approve") {
       document.getElementById("transactionstatus").innerHTML =
-        "You must approve your BUSD.";
+        "You must approve your BUSD first.";
       document.getElementById("supplybtn").disabled = false;
       return false;
     }
@@ -1858,6 +1442,7 @@ async function approveBUSD() {
   const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
   const balance = await BusdContract.methods.balanceOf(_waddress).call();
   document.getElementById("supplybtn").disabled = true;
+  /*
   await BusdContract.methods
     .approve(lockvaiyoaddress, balance)
     .send({ from: _waddress })
@@ -1868,6 +1453,100 @@ async function approveBUSD() {
     .catch((e) => {
       console.log(e);
     });
+  */
+  BusdContract.methods
+    .approve(lockvaiyoaddress, balance)
+    .send({from: _waddress}, function(error, transactionHash){})
+    .on('transactionHash', function(hash){
+        nIntervId = setInterval(myCallback, 500, hash, "approve");
+        openHoldon('sk-dot');
+    })
+    .on('confirmation', function(confirmationNumber, receipt){
+    })
+    .on('receipt', function(receipt){
+    })
+    .on('error', function(error, receipt) { 
+        updateState();
+    });
+}
+
+function openHoldon(themeName){
+  HoldOn.open({
+      theme:themeName,
+      message:"Wait a moment..."
+  });
+}
+
+function closeHoldon(themeName){
+  HoldOn.close();
+}
+
+function httpGetAsync(theUrl, callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+
+function showModal(hash, status) {
+  if(status) {
+    document.getElementById("modal-title").innerHTML = "Transaction Success!";
+    if(_test_) {
+      document.getElementById("modal-body").innerHTML = 'You can get the VAIYO tokens after 180 days.<br>View on <a href="https://testnet.bscscan.com/tx/' + hash + '" target="_blank">bscscan.com</a>';
+    } else {
+      document.getElementById("modal-body").innerHTML = 'You can get the VAIYO tokens after 180 days.<br>View on <a href="https://bscscan.com/tx/' + hash + '" target="_blank">bscscan.com</a>';
+    }
+    
+  } else {
+    document.getElementById("modal-title").innerHTML = "Transaction Failed!";
+    if(_test_) {
+      document.getElementById("modal-body").innerHTML = 'View on <a href="https://testnet.bscscan.com/tx/' + hash + '" target="_blank">bscscan.com</a>';
+    } else {
+      document.getElementById("modal-body").innerHTML = 'View on <a href="https://bscscan.com/tx/' + hash + '" target="_blank">bscscan.com</a>';
+    }
+  }
+  $("#myModal").modal();
+}
+
+let timecnt = 0;
+function myCallback(hash, style)
+{
+  // Your code here
+  // Parameters are purely optional.
+  var receipt = web3.eth.getTransactionReceipt(hash)
+    .then((data) => {
+      if(data != null) {
+        console.log(data);
+        clearInterval(nIntervId);
+        closeHoldon();
+        updateState();
+        displayBalance(getCurrentCryptoType());
+        timecnt = 0;
+        if(data.status) {          
+          document.getElementById("supplybtn").innerHTML = "Supply";
+          if(style != "approve")
+            showModal(data.transactionHash, true);
+        } else {
+          if(style != "approve")
+            showModal(data.transactionHash, false);
+        }
+      }
+    });
+    
+  if(timecnt > 20) {
+    document.getElementById("supplybtn").innerHTML = "Supply";
+    clearInterval(nIntervId);
+    closeHoldon();
+    updateState();
+    if(style != "approve")
+      showModal("", true);
+    displayBalance(getCurrentCryptoType());
+    timecnt = 0;
+  }
 }
 
 async function deposit() {
@@ -1891,8 +1570,22 @@ async function deposit() {
           LockContractABI,
           lockvaiyoaddress
         );
-        document.getElementById("supplybtn").disabled = true;
-        LockContract.methods
+        document.getElementById("supplybtn").disabled = true;        
+        LockContract.methods.depositBNB()
+          .send({from: _waddress, value: amount}, function(error, transactionHash){})
+          .on('transactionHash', function(hash){
+              nIntervId = setInterval(myCallback, 500, hash);
+              openHoldon('sk-dot');
+          })
+          .on('confirmation', function(confirmationNumber, receipt){
+          })
+          .on('receipt', function(receipt){
+          })
+          .on('error', function(error, receipt) { 
+              updateState();
+          });
+        /*
+        await LockContract.methods
           .depositBNB()
           .send({
             from: _waddress,
@@ -1902,15 +1595,29 @@ async function deposit() {
             updateState();
           })
           .catch((error) => {
-            console.log("Error:", error);
             updateState();
-          });
+          });      */  
       } else {
         const LockContract = new web3.eth.Contract(
           LockContractABI,
           lockvaiyoaddress
         );
         document.getElementById("supplybtn").disabled = true;
+        LockContract.methods.depositBUSD(amount.toString())
+          .send({from: _waddress}, function(error, transactionHash){})
+          .on('transactionHash', function(hash){
+              nIntervId = setInterval(myCallback, 500, hash);
+              openHoldon('sk-dot');
+          })
+          .on('confirmation', function(confirmationNumber, receipt){
+          })
+          .on('receipt', function(receipt){
+          })
+          .on('error', function(error, receipt) { 
+              updateState();
+          });
+        
+          /*
         LockContract.methods
           .depositBUSD(amount.toString())
           .send({ from: _waddress })
@@ -1918,9 +1625,8 @@ async function deposit() {
             updateState();
           })
           .catch((error) => {
-            console.log("Error:", error);
             updateState();
-          });
+          });*/
       }
     })
     .catch((e) => {
@@ -1936,7 +1642,6 @@ async function displaySideBarValues() {
   const _waddress = getCurrentAddress();
   const _wtype = getCurrentWalletType();
   var dotAddress = _waddress;
-  console.log(typeof dotAddress);
   dotAddress =
     dotAddress.substring(0, 4) +
     "..." +
@@ -1945,23 +1650,81 @@ async function displaySideBarValues() {
 
   const busdBalance = await getBalance(_waddress, "BUSD");
   const bnbBalance = await getBalance(_waddress, "BNB");
+  const bnbPrice = await getBNBPrice();
+  let busdPrice = await getBUSDPrice();
+
 
   let bnbBal = new BigNumber(bnbBalance);
   bnbBal = bnbBal.multipliedBy(1e18);
-  const bnbAmountForBNB = await getBUSDamountForBNB(bnbBal);
-  let busdAmount = new BigNumber(bnbAmountForBNB.toString());
   var busdBal = new BigNumber(busdBalance);
   busdBal = busdBal.multipliedBy(1e18);
-  const totalBalance = busdAmount.plus(busdBal);
+  let bigBnbPrice = new BigNumber(bnbPrice[1]);
+  bigBnbPrice = bigBnbPrice.dividedBy(1e8);
+  let bigBusdPrice = new BigNumber(busdPrice[1]);
+  bigBusdPrice = bigBusdPrice.dividedBy(1e8);
+
+  const usdAmountForBNB = bnbBal.multipliedBy(bigBnbPrice); 
+  const usdAmountForBUSD = busdBal.multipliedBy(bigBusdPrice);
+
+  const usdTotalAmount = usdAmountForBNB.plus(usdAmountForBUSD);
 
   document.getElementById("w-busd-balance").innerHTML =
     parseFloat(busdBalance).toFixed(2);
   document.getElementById("w-busd-amount").innerHTML =
-    "$" + parseFloat(busdBalance).toFixed(2);
+    "$" + parseFloat(usdAmountForBUSD.div(1e18)).toFixed(2);
   document.getElementById("w-bnb-balance").innerHTML =
     parseFloat(bnbBalance).toFixed(2);
   document.getElementById("w-bnb-amount").innerHTML =
-    "$" + parseFloat(busdAmount.div(1e18)).toFixed(2);
-  document.getElementById("w-balance").innerHTML =
-    "$" + parseFloat(totalBalance.div(1e18)).toFixed(2);
+    "$" + parseFloat(usdAmountForBNB.div(1e18)).toFixed(2);
+  document.getElementById("w-amount").innerHTML =
+    "$" + parseFloat(usdTotalAmount.div(1e18)).toFixed(2);
+
+  const LockContract = new web3.eth.Contract(LockContractABI, lockvaiyoaddress);
+  LockContract.methods.read(_waddress).call().then((data) => {
+    console.log(data);
+    const vaiyoAmount = new BigNumber(data[2]);
+    var restTime = new BigNumber(data[3]);
+    restTime = restTime.div(60).div(60).div(24);
+    const checkTime = data[4];
+    if(checkTime == true) { //unlocked      
+      document.getElementById("v-unlocked").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-unlocked-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigBusdPrice)).toFixed(2);
+      document.getElementById("v-total").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-total-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigBusdPrice)).toFixed(2);
+      document.getElementById("resttime").innerHTML = 
+        "";
+      document.getElementById("claim").innerHTML = 
+        "claim";
+    } else { //locked
+      document.getElementById("v-locked").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-locked-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigBusdPrice)).toFixed(2);
+      document.getElementById("v-total").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-total-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigBusdPrice)).toFixed(2);
+      document.getElementById("resttime").innerHTML = 
+        "\(" + parseFloat(restTime).toFixed(0) + "days\)";
+      document.getElementById("claim").innerHTML = 
+        "";
+    }
+  });
+}
+
+async function claimVaiyoTokens() {
+  const LockContract = new web3.eth.Contract(LockContractABI, lockvaiyoaddress);
+}
+
+
+function showIndacoinModalForVAIYO() {
+  $("#IndacoinModal").modal();
+}
+
+function showIndacoinModalForBNBORBUSD() {
+  $("#IndacoinModal").modal();
 }

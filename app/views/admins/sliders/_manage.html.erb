@@ -1,0 +1,94 @@
+<div class="form-group">
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-hover table-outline table-vcenter card-table">
+          <thead>
+            <tr>
+              <th data-header="slider" data-order="<%= @order_column == "slider" ? @order_direction : "none" %>">
+                <%= t("slider.table.title") %>
+                <% if @order_column == "slider" && @order_direction == "desc" %>
+                 ↓
+                <% elsif @order_column == "slider" && @order_direction == "asc" %>
+                 ↑
+                <% end %>
+              </th>
+              <th data-header="week" data-order="<%= @order_column == "week" ? @order_direction : "none" %>">
+                <%= t("slider.table.content") %>
+                <% if @order_column == "week" && @order_direction == "desc" %>
+                 ↓
+                <% elsif @order_column == "week" && @order_direction == "asc" %>
+                 ↑
+                <% end %>
+              </th>
+              <th class="text-left" data-header="step" data-order="<%= @order_column == "step" ? @order_direction : "none" %>">
+                <%= t("slider.table.link") %>
+                <% if @order_column == "step" && @order_direction == "desc" %>
+                 ↓
+                <% elsif @order_column == "step" && @order_direction == "asc" %>
+                 ↑
+                <% end %>
+              </th>
+              <th class="text-center">
+                <%= t("slider.table.status") %>
+              </th>
+              <th class="text-center"></th>
+            </tr>
+          </thead>
+          <tbody id="slider-table">
+            <tr id="no_slider_found" style="display: none;">
+              <td colspan="7" class="text-center h4 p-6 font-weight-normal">
+                <%= t("administrator.users.table.not_found") %>
+              </td>
+            </tr>
+            <% if @sliders %>
+              <% @sliders.each do |slider| %>
+                <tr data-slider-uid="<%= slider.id %>">
+                  <td>
+                    <div><%= slider.title %></div>
+                    <div class="small text-muted"><%= [t("milestone.table.created"), ": ", view_date(slider.created_at)].join.html_safe %></div>
+                  </td>
+                  <td>
+                    <%= strip_tags(slider.content) %>
+                  </td>
+                  <td>
+                    <%= slider.link %>
+                  </td>
+                  <td class="text-center">
+                    <%= (slider.status == 1) ? 'Active' : 'Inactive' %>
+                  </td>
+                  <td>
+                    <div class="item-action dropdown">
+                      <a href="javascript:void(0)" data-toggle="dropdown" class="icon">
+                        <i class="fas fa-ellipsis-v px-4"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu">
+                        <%= link_to admin_sliders_edit_path(slider_id: slider.id), class: "dropdown-item" do %>
+                          <i class="dropdown-icon fas fa-pencil-alt"></i> <%= t("administrator.users.settings.edit") %>
+                        <% end %>
+                        <button class= "delete-slider dropdown-item" data-path="<%= admin_sliders_delete_path(slider_id: slider.id) %>" data-delete="temp-delete" data-toggle="modal" data-target="#deleteSliderModal">
+                          <i class="dropdown-icon fas fa-times"></i> <%= t("administrator.users.settings.delete") %>
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="7" class="text-center h4 p-6 font-weight-normal" >
+                  <%= t("administrator.users.table.no_users") %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="float-md-right mt-4">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "/admins/sliders/delete_slider_modal" %>

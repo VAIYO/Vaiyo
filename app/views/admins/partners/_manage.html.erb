@@ -1,0 +1,83 @@
+<div class="form-group">
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-hover table-outline table-vcenter card-table">
+          <thead>
+            <tr>
+              <th data-header="partner" data-order="<%= @order_column == "partner" ? @order_direction : "none" %>">
+                <%= t("partner.table.name") %>
+                <% if @order_column == "partner" && @order_direction == "desc" %>
+                 ↓
+                <% elsif @order_column == "partner" && @order_direction == "asc" %>
+                 ↑
+                <% end %>
+              </th>
+              <th data-header="logo" data-order="<%= @order_column == "logo" ? @order_direction : "none" %>">
+                <%= t("partner.table.logo") %>
+                <% if @order_column == "logo" && @order_direction == "desc" %>
+                 ↓
+                <% elsif @order_column == "logo" && @order_direction == "asc" %>
+                 ↑
+                <% end %>
+              </th>
+              <th class="text-center">
+                <%= t("partner.table.status") %>
+              </th>
+              <th class="text-center"></th>
+            </tr>
+          </thead>
+          <tbody id="partner-table">
+            <tr id="no_partner_found" style="display: none;">
+              <td colspan="7" class="text-center h4 p-6 font-weight-normal">
+                <%= t("administrator.users.table.not_found") %>
+              </td>
+            </tr>
+            <% if @partners %>
+              <% @partners.each do |partner| %>
+                <tr data-partner-uid="<%= partner.id %>">
+                  <td>
+                    <div><%= partner.name %></div>
+                    <div class="small text-muted"><%= [t("milestone.table.created"), ": ", view_date(partner.created_at)].join.html_safe %></div>
+                  </td>
+                  <td>
+                    <%= image_tag(partner.logo.url, class: "partner-logo") %>
+                  </td>
+                  <td class="text-center">
+                    <%= (partner.status == 1) ? 'Active' : 'Inactive' %>
+                  </td>
+                  <td>
+                    <div class="item-action dropdown">
+                      <a href="javascript:void(0)" data-toggle="dropdown" class="icon">
+                        <i class="fas fa-ellipsis-v px-4"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu">
+                        <%= link_to admin_partners_edit_path(partner_id: partner.id), class: "dropdown-item" do %>
+                          <i class="dropdown-icon fas fa-pencil-alt"></i> <%= t("administrator.users.settings.edit") %>
+                        <% end %>
+                        <button class= "delete-partner dropdown-item" data-path="<%= admin_partners_delete_path(partner_id: partner.id) %>" data-delete="temp-delete" data-toggle="modal" data-target="#deletePartnerModal">
+                          <i class="dropdown-icon fas fa-times"></i> <%= t("administrator.users.settings.delete") %>
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="7" class="text-center h4 p-6 font-weight-normal" >
+                  <%= t("administrator.users.table.no_users") %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="float-md-right mt-4">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "/admins/partners/delete_partner_modal" %>

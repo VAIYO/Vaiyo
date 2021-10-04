@@ -32,8 +32,8 @@
 .byebug_history
 
 # Ignore environment configuration.
-# .env
-# env
+.env
+env
 
 # Ignore yarn configs
 /node_modules
@@ -55,5 +55,5 @@ coverage*
 /public/uploads/user/*
 /public/uploads/verification/*
 
-# Gemfile
-# Gemfile.lock
+Gemfile
+Gemfile.lock

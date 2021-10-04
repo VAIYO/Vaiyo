@@ -81,20 +81,35 @@
       </div>
     </div>
 
-    <%= f.label :roles, t("settings.account.roles"), class: "form-label mt-5" %>
-    <% if current_user.role.get_permission("can_manage_users") %>
-      <select id="role-dropdown" class="selectpicker show-tick" >
-        <% role_options.each do |role| %>
-          <option value="<%=role.id%>"><%= translated_role_name(role) %></option>
-        <% end %>
-      </select>
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <%= f.label :roles, t("settings.account.roles"), class: "form-label" %>
+        <% if current_user.role.get_permission("can_manage_users") %>
+          <select id="role-dropdown" class="selectpicker show-tick w-100" >
+            <% role_options.each do |role| %>
+              <option value="<%=role.id%>"><%= translated_role_name(role) %></option>
+            <% end %>
+          </select>
 
-      <%= f.hidden_field :role_id, id: "user_role_id", value: @user.role.id %>
-    <% else %>
-      <span style="<%= "background-color: #{role_colour(@user.role)};border-color: #{role_colour(@user.role)};" %>" class="tag custom-role-tag">
-        <%= translated_role_name(@user.role) %>
-      </span>
-    <% end %>
+          <%= f.hidden_field :role_id, id: "user_role_id", value: @user.role.id %>
+        <% else %>
+          <span style="<%= "background-color: #{role_colour(@user.role)};border-color: #{role_colour(@user.role)};" %>" class="tag custom-role-tag">
+            <%= translated_role_name(@user.role) %>
+          </span>
+        <% end %>
+      </div>
+      <div class="col-md-6">
+        <%= f.label :affiliate_link, t("affiliate_link"), class: "form-label" %>
+        <div class="input-icon">
+          <div class="input-group">
+            <%= f.text_field :affiliate_link, class: "form-control #{form_is_invalid?(@user, :email)}", value: request.base_url + '/' + @user.waddress[0..8].slice!(2, 8), :disabled => true %>
+            <div class="input-group-append">
+              <button type="button" class="btn btn-copy" title="Click To Copy" data-toggle="tooltip" data-link="<%= request.base_url + '/' + @user.waddress[0..8].slice!(2, 8) %>"><i class="fa fa-clone"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <%= f.label :image, t("settings.account.image"), class: "form-label mt-5" %>
     <div class="row">
@@ -143,9 +158,9 @@
           <!--  <div class="form-group">
                 <button type="button" class="btn btn-secondary w-100" onclick="connectWithWallet('trustwallet', 'profile')" data-dismiss="modal">TrustWallet</button>
             </div> -->
-            <div class="form-group">
+          <!--  <div class="form-group">
                 <button type="button" class="btn btn-secondary w-100 disabled"" data-dismiss="modal">MathWallet</button>
-            </div>
+            </div> -->
           <!--  <div class="form-group">
                 <button type="button" class="btn btn-secondary w-100" onclick="connectWithWallet('tokenpocket', 'profile')" data-dismiss="modal">TokenPocket</button>
             </div>
@@ -163,3 +178,16 @@
   </div>
 
 <% end %>
+
+<script>
+  jQuery(document).ready(function () { 
+    jQuery(document).on('click', '.btn-copy', function (e) {
+      navigator.clipboard.writeText(jQuery(this).attr('data-link'));
+      jQuery(this).attr("data-original-title", "Copied").tooltip('show');
+    });
+
+    jQuery('.btn-copy').on('hidden.bs.tooltip', function () {
+      jQuery('.copy').attr("data-original-title", "Click To Copy");
+    })
+  })
+</script>

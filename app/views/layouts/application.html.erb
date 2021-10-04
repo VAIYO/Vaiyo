@@ -55,8 +55,16 @@
     <!-- Primary color styling -->
     <%= stylesheet_link_tag themes_primary_path %>
 
-    <!-- Custom Css -->
+    <!-- Custom CSS -->
     <%= stylesheet_link_tag 'custom' %>
+
+    <% if current_page?(root_url) %>
+      <!-- Homepage CSS -->
+      <%= stylesheet_link_tag 'homepage' %>
+    <% end %>
+
+    <!-- Append Additional CSS -->
+    <%= yield :stylesheets %>
 
     <script type="text/javascript">
       // Include the correct translated strings for Javascript
@@ -68,8 +76,9 @@
 
   <body class="app-background" data-controller="<%= params[:controller] %>" data-action="<%= params[:action] %>" data-relative-root="<%= Rails.configuration.relative_url_root || "/" %>">
     <%= render "shared/header" %>
-
+    
     <div class="wrapper">
+      <%= content_tag :div, '', id: 'mycontainer', data: { waddress: $recive_user_waddress, wtype: $recive_user_wtype } %>
       <% if bigbluebutton_endpoint_default? %>
         <div class="alert alert-icon alert-danger text-center mb-0">
           <div class="flash alert d-inline">
@@ -80,6 +89,67 @@
           </div>
         </div>
       <% end %>
+
+      <!-- The alert Modal for the transaction -->
+      <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content text-center">
+          
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-title">Transaction success!</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body" id="modal-body">
+              You can get VAIYO tokens after 180 days.
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+
+          
+      <!-- The Indacoin Modal -->
+      <div class="modal fade" id="IndacoinModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content text-center">
+          
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-title">Transaction success!</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body" id="modal-body">
+              <iframe
+                id="indacoin-widget"
+                title="Onramper widget"
+                frameborder="no"
+                allow="accelerometer; autoplay; camera; gyroscope; payment;"
+                src="https://indacoin.com/partner-widget/?partner=Vaiyo&apiKey=pk_test_XPQeinrc4PJsylYKh_9i6WY95ZE1s6uqEf9k9mQ7KUg0">
+              </iframe>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+            
+
+          </div>
+        </div>
+      </div>
 
       <% unless Rails.configuration.banner_message.blank? %>
         <div class="alert alert-icon alert-danger text-center mb-0">
@@ -92,8 +162,102 @@
       <%= render 'shared/flash_messages' unless flash.empty? %>
 
       <%= yield %>
+
+      <section class="drawer" id="drawer-name" data-drawer-target>
+        <div class="drawer__overlay" data-drawer-close tabindex="-1"></div>
+        <div class="drawer__wrapper">
+          <div class="drawer__header">
+            <div class="drawer__title">
+            </div>
+            <button class="drawer__close" data-drawer-close aria-label="Close Drawer"></button>
+          </div>
+          <div class="container">
+            <div class="w-header">
+              <div class="dropdown">
+                <div class="w-menu-button" data-toggle="dropdown">
+                  <span class="material-icons">account_balance_wallet</span>
+                  <div class="w-wallet-text">My Wallet</div>
+                  <span class="material-icons">expand_more</span>
+                </div>
+                <div class="dropdown-menu">
+                  <div class="dropdown-item d-flex w-menu-item" id="w-menu-refresh"><span class="material-icons">autorenew</span><div class="ml-1">Refresh</div></div>
+                  <!-- <div class="dropdown-divider"></div> -->
+                </div>
+              </div>
+              <div>
+                <div class="w-tooltip wallet-address" id="w-address-tooltip">
+                  <div class="address" value="" id="wallet-address">                
+                    <span class="tooltiptext" id="myTooltip">Copy</span>         
+                    <div class="mywallet-text-gray" id="w-address"></div>   
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mywallet-line"></div>
+            <div class="mywallet-form p-3">
+              <div class="d-flex px-5 mt-3">
+                <p class="mywallet-text-dark">
+                  Locked
+                  <p class="mywallet-text-blue" id="resttime">(0 days)</p>
+                </p>
+                <div class="d-flex ml-auto">
+                  <p class="mywallet-text-dark mr-3" id="v-locked">0.00 VAIYO</p>
+                  <p class="mywallet-text-gray ml-auto" id="v-locked-amount">$0.00</p>
+                </div>
+              </div>
+              <div class="d-flex px-5">
+                <p class="mywallet-text-dark">
+                  Unlocked
+                  <a id="claim">(claim)</a>
+                </p>
+                <div class="d-flex ml-auto">
+                  <p class="mywallet-text-dark mr-3" id="v-unlocked">0.00 VAIYO</p>
+                  <p class="mywallet-text-gray ml-auto" id="v-unlocked-amount">$0.00</p>
+                </div>
+              </div>
+              <div class="d-flex px-5">
+                <p class="mywallet-text-dark">Total Balance</p>
+                <div class="d-flex ml-auto">
+                  <p class="mywallet-text-dark mr-3" id="v-total">0.00 VAIYO</p>
+                  <p class="mywallet-text-gray ml-auto" id="v-total-amount">$0.00</p>
+                </div>
+              </div>
+              <button class="mywallet-button btn btn-primary w-100 mb-3 btn-lg" id="addVAIYObtn">Add VAIYO</button>
+              <button class="mywallet-button btn btn-outline-primary w-100 btn-lg" id="swapVAIYOBtn">Swap VAIYO</button>
+            </div>
+            <div class="mywallet-form p-3">
+              <div class="d-flex px-5 mt-3">
+                <p class="mywallet-text-dark">BUSD</p>
+                <div class="d-flex ml-auto">
+                  <p class="mywallet-text-dark mr-3" id="w-busd-balance">0.00</p> 
+                  <p class="mywallet-text-gray ml-auto" id="w-busd-amount">$0.00</p>  
+                </div>    
+              </div>
+              <div class="d-flex px-5">
+                <p class="mywallet-text-dark">BNB</p>
+                <div class="d-flex ml-auto">
+                  <p class="mywallet-text-dark mr-3" id="w-bnb-balance">0.00</p> 
+                  <p class="mywallet-text-gray ml-auto" id="w-bnb-amount">$0.00</p>  
+                </div>        
+              </div>
+              <div class="d-flex px-5">
+                <p class="mywallet-text-dark">Total Balance</p>
+                <p class="mywallet-text-dark ml-auto" id="w-amount">$0.00</p>
+              </div>
+              <button class="mywallet-button btn btn-primary w-100 btn-lg" id="addFunsbtn">Add Funds</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
 
-    <%= render "shared/footer" %>
+    <% if !current_page?(root_url) %>
+      <%= render "shared/footer" %>
+    <% end %>
+
+    <!-- Append Additional JS -->
+    <%= yield :scripts %>
+
   </body>
 </html>

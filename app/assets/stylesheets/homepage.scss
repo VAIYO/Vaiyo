@@ -1,0 +1,699 @@
+/** Home Page */
+
+//containers
+$screen-4xl: 1920px;
+$screen-3xl: 1600px;
+$screen-2xl: 1440px;
+$screen-xl: 1200px;
+$screen-lg: 992px;
+$screen-md: 768px;
+$screen-sm: 576px;
+$screen-xsm: 320px;
+
+$container-4xl: 1660px;
+$container-3xl: 1350px;
+$container-2xl: 1200px;
+$container-xl: 1140px;
+$container-lg: 900px;
+$container-md: 650px;
+$container-sm: 325px;
+$container-xsm: 370px;
+
+$font-4xl: 16px;
+$font-3xl: 14px;
+$font-2xl: 14px;
+$font-xl: 12px;
+$font-lg: 10px;
+$font-md: 10px;
+$font-sm: 10px;
+$font-xsm: 10px;
+
+// Colors
+$black: #000000;
+$light-black: #342D2D;
+$feture-title-black: #183B56;
+$feture-excerpt-black: #5A7184;
+$bg-light-blue-gradient: linear-gradient(180deg, #3FB7E7 0%, #4DCCFF 100%);
+$bg-grey: #F8F8F8;
+$hr: #6A6B6E;
+$light-grey-border: #E6D8D8;
+$light-blue: #4272B8;
+$table-border: #CACACA;
+$blue-dark: #051344;
+$theme-blue: #467fcf;
+
+// Utilites
+.font-poppins {font-family: 'Poppins', sans-serif}
+.text-black {color: $black;}
+.text-light-black {color: $light-black;}
+.leading-default {letter-spacing: 0.31px}
+.leading-sm {letter-spacing: 0.26px}
+.bg-grey {background: $bg-grey;}
+.feature-title-color {color: $feture-title-black}
+.feature-excerpt-color {color: $feture-excerpt-black}
+.fw-700 {font-weight: 700}
+.fw-600 {font-weight: 600}
+.fw-500 {font-weight: 500}
+.fw-400 {font-weight: 400}
+.bg-blue-dark {background-color: $blue-dark}
+
+/** Mixins */
+@mixin container($min-width, $max-width) {
+    @media (min-width: $min-width) {
+        .container {
+            max-width: $max-width;
+        }
+    }
+}
+
+@mixin html($min-width, $font-size) {
+    @media (min-width: $min-width) {
+        html {
+            font-size: $font-size;
+        }
+    }
+}
+
+@mixin desktop-1920 { @media (max-width: $screen-4xl) { @content }}
+@mixin desktop-1600 { @media (max-width: $screen-3xl) { @content }}
+@mixin desktop-1440 { @media (max-width: $screen-2xl) { @content }}
+@mixin desktop-1200 { @media (max-width: $screen-xl) { @content }}
+@mixin tab-992 { @media (max-width: $screen-lg) { @content }}
+@mixin tab-768 { @media (max-width: $screen-md) { @content }}
+@mixin mobile-576 { @media (max-width: $screen-sm) { @content }}
+@mixin mobile-320 { @media (max-width: $screen-xsm) { @content }}
+
+// SCSS
+@include html($screen-xsm, $font-xsm);
+@include html($screen-sm, $font-sm);
+@include html($screen-md, $font-md);
+@include html($screen-lg, $font-lg);
+@include html($screen-xl, $font-xl);
+@include html($screen-2xl, $font-2xl);
+@include html($screen-3xl, $font-3xl);
+@include html($screen-4xl, $font-4xl);
+
+.home-page {
+    // reset css
+    hr {
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    @include container($screen-xsm, $container-xsm);
+    @include container($screen-sm, $container-sm);
+    @include container($screen-md, $container-md);
+    @include container($screen-lg, $container-lg);
+    @include container($screen-xl, $container-xl);
+    @include container($screen-2xl, $container-2xl);
+    @include container($screen-3xl, $container-3xl);
+    @include container($screen-4xl, $container-4xl);
+
+    #particles-js {
+        .particles-js-canvas-el {
+            position: absolute;
+            height: 11% !important;
+        }
+    }
+
+    #banner {
+        padding-top: 6rem;
+        padding-bottom: 10rem;
+        overflow: hidden;
+        @include mobile-576 {
+            padding-top: 0rem;
+        }
+        .banner-wrapper {
+            @include mobile-576 {
+                margin-top: 0rem;
+                flex-direction: column-reverse;
+            }
+        }
+        .banner {
+            .excerpt {
+                margin-top: 8.75rem;
+                @include mobile-576 {
+                    margin-top: 0rem;
+                }
+                .title-wrapper {
+                    .title {
+                        font-size: 5rem;
+                        line-height: 9rem;
+                        @include desktop-1440 {
+                            font-size: 4.5rem;
+                            line-height: 8rem;
+                        }
+                    }
+                }
+                .tagline {
+                    font-size: 1.6rem;
+                    line-height: 3rem;
+                    margin-top: 4rem;
+                    margin-bottom: 4rem;
+                }
+                .btn-blue {
+                    background: $bg-light-blue-gradient;
+                    border-radius: 0.75rem;
+                    padding: 1.25rem 1.75rem;
+                    font-size: 1.6rem;
+                    .right-arrow {
+                        margin-left: 3.25rem;
+                    }
+                }
+            }
+        }
+        model-viewer {
+            width: 45rem;
+            height: 40rem;
+            @include mobile-576 {
+                width: 35rem;
+                height: 35rem;
+            }
+        }
+        .prev, .next {
+            background: url('/front-assets/arrow-box.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            padding: 1rem 1.37rem;
+            position: absolute;
+            cursor: pointer;
+        }
+        .prev {
+            top: 58rem;
+            @include desktop-1200 {
+                top: 56rem;
+            }
+            @include tab-768 {
+                top: 70rem;
+            }
+            @include mobile-576 {
+                top: 55rem;
+            }
+        }
+        .next {
+            bottom: -8.75rem;
+            left: 7rem;
+            @include desktop-1440 {
+                bottom: -10rem;
+            }
+            @include desktop-1200 {
+                bottom: -9rem;
+            }
+            @include mobile-576 {
+                bottom: -5.5rem;
+            }
+        }
+    }
+
+    #about-vaiyo {
+        margin-top: 10rem;
+        @include mobile-576 {
+            margin-top: 5rem;
+        }
+        .title-wrapper {
+            .title {
+                font-size: 3.25rem;
+                line-height: 5rem;
+            }
+        }
+        .row {
+            @include mobile-576 {
+                padding: 0rem 4rem;
+                // flex-direction: column-reverse;
+            }
+            .content {
+                padding-top: 10rem;
+                padding-bottom: 1.25rem;
+                padding-left: 5rem;
+                @include mobile-576 {
+                    padding-top: 5rem;
+                    padding-bottom: 5rem;
+                    padding-left: 0rem;
+                }
+                .title-wrapper {
+                    @include mobile-576 {
+                        display: none;
+                    }
+                }
+                .desc {
+                    margin-top: 5rem;
+                    @include mobile-576 {
+                        margin-top: 0rem;
+                    }
+                    .excerpt {
+                        font-size: 1.6rem;
+                        line-height: 3rem;
+                    }
+                }
+                .goto-link {
+                    margin-top: 6rem;
+                    @include desktop-1440 {
+                        margin-top: 0rem;
+                    }
+                }
+            }
+            .about-img-section {
+                .title-wrapper {
+                    display: none;
+                    @include mobile-576 {
+                        display: block;
+                        padding-bottom: 5rem;
+                        padding-top: 5rem;
+                    }
+                }
+            }
+        }
+    }
+
+    #vaiyo-features {
+        margin-top: 8.5rem;
+        @include mobile-576 {
+            margin-top: 6rem;
+        }
+        .title-wrapper {
+            .title {
+                font-size: 3.25rem;
+                line-height: 5rem;
+                padding: 0rem 2.75rem;
+            }
+            hr {
+                width: 30%;
+                height: 2px;
+                border-color: $hr;
+            }
+        }
+        .features {
+            margin-top: 4.5rem;
+            @include mobile-576 {
+                text-align: center;
+            }
+            .title {
+                margin-top: 2.25rem;   
+                font-size: 1.75rem;
+                line-height: 2.5rem;
+            }
+            .excerpt {
+                margin-top: 0.75rem;
+                font-size: 1.25rem;
+                line-height: 2.25rem;
+            }
+            .second-row {
+                margin-top: 4.75rem;
+                @include mobile-576 {
+                    margin-top: 0rem;
+                }
+            }
+            .feature {
+                margin-bottom: 2rem;
+            }
+        }
+    }
+
+    #vaiyo-uses {
+        margin-top: 6rem;
+        .business-personal-use {
+            padding-top: 7.75rem;
+            .title {
+                h1 {
+                   font-size: 3.5rem;
+                   line-height: 5rem;
+                }
+            }
+            .content {
+                .desc {
+                    margin-top: 4.75rem;
+                    font-size: 1.75rem;
+                    line-height: 3rem;
+                }
+            }
+            .goto-link {
+                margin-top: 2rem;
+            }
+            .mobile-hide {
+                @include mobile-576 {
+                    display: none;
+                }
+            }
+            .desktop-hide {
+                display: none;
+                @include mobile-576 {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    #service-expect {
+        margin-top: 7.75rem;
+        background: url('/front-assets/service.png');
+        padding: 4rem 4rem 5.25rem;
+        background-repeat: no-repeat;
+        background-size: cover;
+        .service {
+            padding: 4.5rem 3.75rem;
+            background-color: #FFFFFF;
+            // margin: 4rem auto 4rem 5.25rem;
+            width: 40%;
+            .title {
+                font-size: 3.25rem;
+                line-height: 5rem;
+            }
+        }
+        .desc {
+            margin-top: 3.5rem;
+            line-height: 3rem;
+            font-size: 1.6rem;
+        }
+    }
+
+    #app {
+        padding-top: 9.5rem;
+        padding-bottom: 4rem;
+        .title-wrapper {
+            .title {
+                font-size: 3.25rem;
+                line-height: 5rem;
+            }
+        }
+        .app-img {
+            .title-wrapper {
+                padding: 0rem 4rem;
+                display: none;
+                @include mobile-576 {
+                    display: block;
+                }
+            }
+        }
+        .content {
+            padding: 0rem 11.25rem;
+            margin-top: 2.5rem;
+            @include mobile-576 {
+                padding: 0rem 4rem;
+            }
+            @include tab-768 {
+                padding: 0rem 5.25rem;
+            }
+            .title-wrapper {
+                @include mobile-576 {
+                    display: none;
+                }
+            }
+            .desc {
+                margin-top: 6rem;
+                line-height: 3rem;
+                font-size: 1.6rem;
+                @include mobile-576 {
+                    margin-top: 0rem;
+                }
+            }
+            .goto-link {
+                margin-top: 2rem;
+                @include mobile-576 {
+                    margin-top: 0rem;
+                }
+            }
+        }
+    }
+
+    #partners {
+        margin-top: 8.5rem;
+        .partners-wrapper {
+            margin-top: 9.25rem;
+            @include mobile-576 {
+                margin-top: 7rem;
+            }
+            .partner-block {
+                margin-bottom: 3rem;
+            }
+            .partner {
+                border: 1px solid $light-grey-border;
+                border-radius: 1rem;
+                .partner-image {
+                    padding: 2.75rem;
+                    @include mobile-576 {
+                        padding: 10rem;
+                    }
+                }
+            }
+            .second-row {
+                margin-top: 1.25rem;
+            }
+        }
+    }
+
+    #roadmap {
+        margin-top: 12.5rem;
+        padding-top: 8.5rem;
+        padding-bottom: 9.25rem;
+        .title-between-wrapper {
+            margin-bottom: 9.25rem;
+            .title {
+                background-color: $bg-grey !important;
+            }
+        }
+        table {
+            background-image: url('/front-assets/bg-map.png');
+            margin: 0 auto;
+            border-collapse: collapse;
+            border-style: hidden;
+            .item {
+                text-align: center;
+                width: 20%;
+                font-size: 1.25rem;
+                line-height: 1.75rem;
+                color: $light-black;
+                font-weight: 500;
+                @include tab-768 {
+                    padding: 0.75rem !important;
+                }
+                @include mobile-576 {
+                    padding: 0.75rem !important;
+                    font-size: 1rem;
+                }
+            }
+            .btn-blue {
+                background: $bg-light-blue-gradient;
+                border-radius: 0.75rem;
+                padding: 1.75rem 4.5rem;
+                width: auto;
+                max-width: 18rem;
+                margin-top: 2.25rem;
+                margin-bottom: 2.25rem;
+                font-size: 1.25rem;
+                line-height: 1.875rem;
+                @include desktop-1440 {
+                    padding: 1.75rem 3.5rem;
+                    max-width: 16rem;
+                }
+                @include desktop-1200 {
+                    padding: 1.75rem 2.5rem;
+                    max-width: 15rem;
+                }
+                @include tab-768 {
+                    padding: 1.5rem;
+                    max-width: 11rem;
+                }
+                @include mobile-576 {
+                    padding: 0.75rem;
+                    font-size: 1rem;
+                    max-width: 5.25rem;
+                    margin: 0.75rem 0rem;
+                }
+            }
+        }
+        table td {
+            padding: unset !important;
+            border: 1px solid $table-border;
+            vertical-align: unset;
+        }
+    }
+
+    #footer {
+        padding-top: 4.5rem;
+        padding-bottom: 3.75rem;
+        @include mobile-576 {
+            padding-right: 1rem;
+            padding-left: 1rem;
+        }
+        .excerpt {
+            margin-top: 2.5rem;
+            font-size: 1rem;
+            line-height: 1.5rem;
+            @include mobile-576 {
+                font-size: 1.25rem;
+            }
+        }
+        .social-media {
+            list-style-type: none;
+            margin-top: 3.25rem;
+            .icon {
+                display: inline-block;
+                img {
+                    @include desktop-1200 {
+                        height: 1.5rem;
+                    }
+                }
+            }
+        }
+        .menu-wrapper {
+            .title-wrapper {
+                .title {
+                    font-size: 1.125rem;
+                    line-height: 1.75rem;
+                    @include mobile-576 {
+                        font-size: 1.5rem;
+                        padding-bottom: 0.5rem;
+                    }
+                }
+                .border-1 {
+                    width: 0.75rem;
+                    margin-right: 5px !important;
+                }
+                .border-2 {
+                    width: 1.75rem;
+                }
+            }
+            .menu {
+                margin-top: 1.5rem;
+                list-style-type: none;
+                .menu-item {
+                    font-size: 1rem;
+                    line-height: 1.5rem;
+                    padding: 0px !important;
+                    @include mobile-576 {
+                        font-size: 1.25rem;
+                    }
+                    a {
+                        color: $black !important;
+                        &:hover {
+                            color: $theme-blue !important;
+                        }
+                    }
+                }
+            }
+        }
+        .second-nav {
+            padding: 1.5rem 6.25rem;
+            margin-top: 5rem;
+            background: $bg-light-blue-gradient;
+            border-radius: 0.75rem;
+            @include tab-768 {
+                padding: 1.5rem 3.25rem;
+            }
+            @include mobile-576 {
+                padding: 1rem;
+                margin-top: 3rem;
+            }
+            .nav-item, .copyright-text {
+                margin-right: 6.25rem;
+                font-size: 1.125rem;
+                line-height: 1.75rem;
+                @include tab-768 {
+                    margin-right: 1.25rem;
+                }
+                @include mobile-576 {
+                    margin-right: 1rem;
+                    font-size: 1.5rem;
+                    padding: 0rem;
+                }
+            }
+        }
+        .copyright {
+            @include mobile-576 {
+                margin-top: 1rem;
+            }
+        }
+        .column-1 {
+            padding-right: 6.5rem;
+            @include tab-768 {
+                padding-right: 2rem;
+            }
+            @include mobile-576 {
+                padding-left: 0rem;
+            }
+        }
+        .column-2 {
+            padding-left: 1.75rem;
+            @include mobile-576 {
+                padding-left: 0rem;
+                padding-top: 3rem;
+            }
+        }
+        .column-3 {
+            padding-left: 7.25rem;
+            @include tab-768 {
+                padding-left: 2rem;
+            }
+            @include mobile-576 {
+                padding-left: 0rem;
+                padding-top: 3rem;
+            }
+        }
+        .column-4 {
+            padding-left: 3.25rem;
+            @include mobile-576 {
+                padding-left: 0rem;
+                padding-top: 3rem;
+            }
+        }
+        .column-5 {
+            @include mobile-576 {
+                padding-left: 0rem;
+                padding-top: 3rem;
+            }
+        }
+    }
+
+    /** Common CSS */
+    .title-border {
+        background: $bg-light-blue-gradient;
+        border-radius: 0.75rem;
+        height: 0.75rem;
+        width: 9rem;
+    }
+
+    .goto-link {
+        height: 7.25rem;
+        width: 7.25rem;
+        background: $bg-light-blue-gradient;
+        font-size: 2rem;
+        .right-arrow {
+            padding-top: 2rem;
+        }
+    }
+
+    .right-arrow {
+        @include desktop-1200 {
+            height: auto;
+            width: 3rem;
+        }
+    }
+
+    .title-between-wrapper {
+        .title {
+            font-size: 3.25rem;
+            line-height: 5rem;
+            padding: 0rem 2rem;
+            top: 2.25rem;
+            background: #fff;
+            display: inline-block;
+            position: relative;
+            @include mobile-576 {
+                padding: 0rem;
+                top: 0rem;
+            }
+        }
+        .border {
+            height: 2px;
+            border-color: $hr !important;
+            @include mobile-576 {
+                display: none;
+            }
+        }
+    }
+
+    .dotted-border {
+        background: $light-blue;
+        height: 2px;
+    }
+}

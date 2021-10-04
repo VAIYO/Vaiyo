@@ -1,0 +1,106 @@
+<div class="form-group">
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-hover table-outline table-vcenter card-table">
+          <thead>
+            <tr>
+              <th data-header="milestone" data-order="<%= @order_column == "milestone" ? @order_direction : "none" %>">
+                <%= t("roadmap.table.year") %>
+                <% if @order_column == "milestone" && @order_direction == "desc" %>
+                 ↓
+                <% elsif @order_column == "milestone" && @order_direction == "asc" %>
+                 ↑
+                <% end %>
+              </th>
+              <th data-header="week" data-order="<%= @order_column == "week" ? @order_direction : "none" %>">
+                <%= t("roadmap.table.week") %>
+                <% if @order_column == "week" && @order_direction == "desc" %>
+                 ↓
+                <% elsif @order_column == "week" && @order_direction == "asc" %>
+                 ↑
+                <% end %>
+              </th>
+              <th class="text-left" data-header="step" data-order="<%= @order_column == "step" ? @order_direction : "none" %>">
+                <%= t("roadmap.table.step") %>
+                <% if @order_column == "step" && @order_direction == "desc" %>
+                 ↓
+                <% elsif @order_column == "step" && @order_direction == "asc" %>
+                 ↑
+                <% end %>
+              </th>
+              <th class="text-left" data-header="milestone" data-order="<%= @order_column == "milestone" ? @order_direction : "none" %>">
+                <%= t("roadmap.table.milestone") %>
+                <% if @order_column == "milestone" && @order_direction == "desc" %>
+                 ↓
+                <% elsif @order_column == "milestone" && @order_direction == "asc" %>
+                 ↑
+                <% end %>
+              </th>
+              <th class="text-center">
+                <%= t("roadmap.table.status") %>
+              </th>
+              <th class="text-center">
+              </th>
+            </tr>
+          </thead>
+          <tbody id="milestone-table">
+            <tr id="no_milestone_found" style="display: none;">
+              <td colspan="7" class="text-center h4 p-6 font-weight-normal">
+                <%= t("administrator.users.table.not_found") %>
+              </td>
+            </tr>
+            <% if @milestones %>
+              <% @milestones.each do |milestone| %>
+                <tr data-milestone-uid="<%= milestone.id %>">
+                  <td>
+                    <div><%= milestone.year %></div>
+                    <div class="small text-muted"><%= [t("milestone.table.created"), ": ", view_date(milestone.created_at)].join.html_safe %></div>
+                  </td>
+                  <td class="milestone-week">
+                    <%= milestone.week %>
+                  </td>
+                  <td>
+                    <%= milestone.step %>
+                  </td>
+                  <td>
+                    <%= strip_tags(milestone.milestone) %>
+                  </td>
+                  <td class="text-center">
+                    <%= milestone_status(milestone.status) %>
+                  </td>
+                  <td>
+                    <div class="item-action dropdown">
+                      <a href="javascript:void(0)" data-toggle="dropdown" class="icon">
+                        <i class="fas fa-ellipsis-v px-4"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu">
+                        <%= link_to admin_roadmaps_edit_path(roadmap_id: milestone.id), class: "dropdown-item" do %>
+                          <i class="dropdown-icon fas fa-pencil-alt"></i> <%= t("administrator.users.settings.edit") %>
+                        <% end %>
+                        <button class= "delete-roadmap dropdown-item" data-path="<%= admin_roadmaps_delete_path(roadmap_id: milestone.id) %>" data-delete="modal" data-toggle="modal" data-target="#deleteRoadmapModal">
+                          <i class="dropdown-icon fas fa-times"></i> <%= t("administrator.users.settings.delete") %>
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="7" class="text-center h4 p-6 font-weight-normal" >
+                  <%= t("administrator.users.table.no_users") %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="float-md-right mt-4">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "/admins/roadmaps/delete_roadmap_modal" %>

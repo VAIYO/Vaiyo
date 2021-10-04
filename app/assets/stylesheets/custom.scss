@@ -180,6 +180,10 @@ $min-layout-breakpoint-ipad: 768px;
             }
         }
     }
+    &:hover {
+        box-shadow: 8px 8px #727273;
+        margin-top: -3px;
+    }
 }
 
 .custom-block {
@@ -193,10 +197,9 @@ $min-layout-breakpoint-ipad: 768px;
 .sign-in-button {
     background: rgba(66, 114, 184, 0.07);
     border: unset;
-    border-radius: 12px;
+    border-radius: 6px;
     font-family: 'Poppins';
-    padding-left: 40px;
-    padding-right: 40px;
+    padding: 7px 40px;
 }
 
 .select-user-lang .dropdown-menu {

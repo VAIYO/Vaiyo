@@ -33,6 +33,10 @@
 //= require jquery_ujs
 //= require jquery-ui/widget
 //= require jquery-ui/widgets/sortable
+//= require popper
+//= require bootstrap
+//= require summernote/summernote-bs4.min
+//= require activestorage
 //= require pickr.min.js
 //= require bootstrap-select.min.js
 //= require local-time
