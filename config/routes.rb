@@ -129,7 +129,11 @@ Rails.application.routes.draw do
     # All user recordings
     get '/:user_uid/recordings', to: 'users#recordings', as: :get_user_recordings
     # Show screen that get tokens.
-    get '/:user_uid/getvaiyotokens', to: 'users#getvaiyotokens', as: :get_vaiyotokens
+    get '/:user_uid/addvaiyotokens', to: 'users#addvaiyotokens', as: :add_vaiyotokens
+    # Show screen that get tokens.
+    get '/:user_uid/swapvaiyotokens', to: 'users#swapvaiyotokens', as: :swap_vaiyotokens
+    # Show screen that get tokens.
+    get '/:user_uid/addfunds', to: 'users#addfunds', as: :add_funds
     # All user recordings of specific room
     get '/:user_uid/recordings/:room_uid', to: 'rooms#room_recordings', as: :get_room_recordings
   end
