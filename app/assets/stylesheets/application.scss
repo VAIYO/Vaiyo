@@ -38,7 +38,7 @@
 @import "font-awesome";
 @import "monolith.min.scss";
 @import "bootstrap-select.min";
-@import "summernote-bs4";
+//@import "summernote-bs4";
 
 @import "utilities/variables";
 @import "admins";
@@ -211,10 +211,4 @@ table {
 .partner-logo {
   max-width: 8rem;
   max-height: 8rem;
-}
-
-html, body, #indacoin-widget {
-  height: 100%;
-  width: 100%;
-  margin: 0;
 }

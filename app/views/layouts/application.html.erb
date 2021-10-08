@@ -116,41 +116,6 @@
       </div>
 
 
-          
-      <!-- The Indacoin Modal -->
-      <div class="modal fade" id="IndacoinModal">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content text-center">
-          
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h4 class="modal-title" id="modal-title">Transaction success!</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            
-            <!-- Modal body -->
-            <div class="modal-body" id="modal-body">
-              <iframe
-                id="indacoin-widget"
-                title="Onramper widget"
-                frameborder="no"
-                allow="accelerometer; autoplay; camera; gyroscope; payment;"
-                src="https://indacoin.com/partner-widget/?partner=Vaiyo&apiKey=pk_test_XPQeinrc4PJsylYKh_9i6WY95ZE1s6uqEf9k9mQ7KUg0">
-              </iframe>
-            </div>
-            
-            <!-- Modal footer -->
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-
-            
-
-          </div>
-        </div>
-      </div>
-
       <% unless Rails.configuration.banner_message.blank? %>
         <div class="alert alert-icon alert-danger text-center mb-0">
           <div class="flash alert d-inline">
@@ -222,8 +187,8 @@
                   <p class="mywallet-text-gray ml-auto" id="v-total-amount">$0.00</p>
                 </div>
               </div>
-              <button class="mywallet-button btn btn-primary w-100 mb-3 btn-lg" id="addVAIYObtn">Add VAIYO</button>
-              <button class="mywallet-button btn btn-outline-primary w-100 btn-lg" id="swapVAIYOBtn">Swap VAIYO</button>
+              <button class="mywallet-button btn btn-primary w-100 mb-3 btn-lg" data-drawer-addVAIYO id="addVAIYObtn">Add VAIYO</button>
+              <button class="mywallet-button btn btn-outline-primary w-100 btn-lg" data-drawer-swapVAIYO id="swapVAIYOBtn">Swap VAIYO</button>
             </div>
             <div class="mywallet-form p-3">
               <div class="d-flex px-5 mt-3">
@@ -244,7 +209,7 @@
                 <p class="mywallet-text-dark">Total Balance</p>
                 <p class="mywallet-text-dark ml-auto" id="w-amount">$0.00</p>
               </div>
-              <button class="mywallet-button btn btn-primary w-100 btn-lg" id="addFunsbtn">Add Funds</button>
+              <button class="mywallet-button btn btn-primary w-100 btn-lg" data-drawer-addFuns id="addFunsbtn">Add Funds</button>
             </div>
           </div>
         </div>

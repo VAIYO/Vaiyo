@@ -85,21 +85,6 @@ var drawer = async function () {
           .addEventListener("click", async function () {
             displaySideBarValues();
           });
-        document
-          .getElementById("addVAIYObtn")
-          .addEventListener("click", async function () {
-            showIndacoinModalForVAIYO();
-          });
-        document
-          .getElementById("swapVAIYOBtn")
-          .addEventListener("click", async function () {
-            alert("Swap VAIYO");
-          });
-        document
-          .getElementById("addFunsbtn")
-          .addEventListener("click", async function () {
-            showIndacoinModalForBNBORBUSD();
-          });
       })
       .catch((e) => {
         console.log(e);
@@ -117,6 +102,9 @@ var drawer = async function () {
     selectorTarget: "[data-drawer-target]",
     selectorTrigger: "[data-drawer-trigger]",
     selectorClose: "[data-drawer-close]",
+    selectorAddVAIYO: "[data-drawer-addVAIYO]",
+    selectorSwapVAIYO: "[data-drawer-swapVAIYO]",
+    selectorAddFuns: "[data-drawer-addFuns]",
   };
 
   //
@@ -182,6 +170,9 @@ var drawer = async function () {
     var toggle = event.target,
       open = toggle.closest(settings.selectorTrigger),
       close = toggle.closest(settings.selectorClose);
+      addVAIYO = toggle.closest(settings.selectorAddVAIYO);
+      swapVAIYO = toggle.closest(settings.selectorSwapVAIYO);
+      addFuns = toggle.closest(settings.selectorAddFuns);
 
     // Open drawer when the open button is clicked
     if (open) {
@@ -191,6 +182,22 @@ var drawer = async function () {
     // Close drawer when the close button (or overlay area) is clicked
     if (close) {
       closeDrawer(close);
+    }
+
+    if(addVAIYO) {
+      closeDrawer(addVAIYO);
+      showIndacoinModalForVAIYO();
+    }
+
+    if(swapVAIYO) {
+      console.log("swapvaiyo sidebar js file");
+      closeDrawer(swapVAIYO);
+      gotoSwapVAIYO();
+    }
+
+    if(addFuns) {
+      closeDrawer(addFuns);
+      showIndacoinModalForBNBORBUSD();
     }
 
     // Prevent default link behavior
@@ -223,3 +230,105 @@ var drawer = async function () {
 };
 
 drawer();
+
+
+//////////////////////////////////////////
+//SideBar
+//////////////////////////////////////////
+
+async function displaySideBarValues() {
+  const _waddress = getCurrentAddress();
+  const _wtype = getCurrentWalletType();
+  var dotAddress = _waddress;
+  dotAddress =
+    dotAddress.substring(0, 4) +
+    "..." +
+    dotAddress.substring(dotAddress.length - 4, dotAddress.length);
+  document.getElementById("w-address").innerHTML = dotAddress;
+
+  const busdBalance = await getBalance(_waddress, "BUSD");
+  const bnbBalance = await getBalance(_waddress, "BNB");
+  const bnbPrice = await getBNBPrice();
+  let busdPrice = await getBUSDPrice();
+
+
+  let bnbBal = new BigNumber(bnbBalance);
+  bnbBal = bnbBal.multipliedBy(1e18);
+  var busdBal = new BigNumber(busdBalance);
+  busdBal = busdBal.multipliedBy(1e18);
+  let bigBnbPrice = new BigNumber(bnbPrice[1]);
+  bigBnbPrice = bigBnbPrice.dividedBy(1e8);
+  let bigBusdPrice = new BigNumber(busdPrice[1]);
+  bigBusdPrice = bigBusdPrice.dividedBy(1e8);
+  let bigVAIYOPrice = new BigNumber("12");
+  bigVAIYOPrice = bigVAIYOPrice.multipliedBy(bigBusdPrice).dividedBy(1e2);
+
+  const usdAmountForBNB = bnbBal.multipliedBy(bigBnbPrice); 
+  const usdAmountForBUSD = busdBal.multipliedBy(bigBusdPrice);
+
+  const usdTotalAmount = usdAmountForBNB.plus(usdAmountForBUSD);
+
+  document.getElementById("w-busd-balance").innerHTML =
+    parseFloat(busdBalance).toFixed(2);
+  document.getElementById("w-busd-amount").innerHTML =
+    "$" + parseFloat(usdAmountForBUSD.div(1e18)).toFixed(2);
+  document.getElementById("w-bnb-balance").innerHTML =
+    parseFloat(bnbBalance).toFixed(2);
+  document.getElementById("w-bnb-amount").innerHTML =
+    "$" + parseFloat(usdAmountForBNB.div(1e18)).toFixed(2);
+  document.getElementById("w-amount").innerHTML =
+    "$" + parseFloat(usdTotalAmount.div(1e18)).toFixed(2);
+
+  const LockContract = new web3.eth.Contract(LockContractABI, lockvaiyoaddress);
+  LockContract.methods.read(_waddress).call().then((data) => {
+    console.log(data);
+    const vaiyoAmount = new BigNumber(data[2]);
+    var restTime = new BigNumber(data[3]);
+    restTime = restTime.div(60).div(60).div(24);
+    const checkTime = data[4];
+    if(checkTime == true) { //unlocked      
+      document.getElementById("v-unlocked").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-unlocked-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
+      document.getElementById("v-total").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-total-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
+      document.getElementById("resttime").innerHTML = 
+        "";
+      document.getElementById("claim").innerHTML = 
+        "claim";
+    } else { //locked
+      document.getElementById("v-locked").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-locked-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
+      document.getElementById("v-total").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-total-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
+      document.getElementById("resttime").innerHTML = 
+        "\(" + parseFloat(restTime).toFixed(0) + "days\)";
+      document.getElementById("claim").innerHTML = 
+        "";
+    }
+  });
+}
+
+async function claimVaiyoTokens() {
+  const LockContract = new web3.eth.Contract(LockContractABI, lockvaiyoaddress);
+}
+
+
+function showIndacoinModalForVAIYO() {
+  post("/u/:user_uid/addvaiyotokens/", {}, "GET");
+}
+
+function showIndacoinModalForBNBORBUSD() {  
+  post("/u/:user_uid/addvaiyotokens/", {}, "GET");
+}
+
+function gotoSwapVAIYO() {
+  post("/u/:user_uid/swapvaiyotokens/", {}, "GET");
+}

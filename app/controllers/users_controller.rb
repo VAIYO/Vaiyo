@@ -191,8 +191,20 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /u/user_uid/getvaiyotokens
-  def getvaiyotokens    
+  # GET /u/user_uid/addvaiyotokens
+  def addvaiyotokens    
+    $recive_user_waddress = current_user.waddress
+    $recive_user_wtype = current_user.wtype
+  end
+
+  # GET /u/user_uid/swapvaiyotokens
+  def swapvaiyotokens    
+    $recive_user_waddress = current_user.waddress
+    $recive_user_wtype = current_user.wtype
+  end
+
+   # GET /u/user_uid/addfunds
+  def addfunds    
     $recive_user_waddress = current_user.waddress
     $recive_user_wtype = current_user.wtype
   end
