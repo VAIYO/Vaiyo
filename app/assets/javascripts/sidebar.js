@@ -23,6 +23,41 @@ var drawer = async function () {
       } while (ancestor !== null);
       return null;
     };
+    
+  const LockContract = new web3.eth.Contract(LockContractABI, lockvaiyoaddress);
+  LockContract.methods.read(_waddress).call().then((data) => {
+    console.log(data);
+    const vaiyoAmount = new BigNumber(data[2]);
+    var restTime = new BigNumber(data[3]);
+    restTime = restTime.div(60).div(60).div(24);
+    const checkTime = data[4];
+    if(checkTime == true) { //unlocked      
+      document.getElementById("v-unlocked").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-unlocked-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
+      document.getElementById("v-total").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-total-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
+      document.getElementById("resttime").innerHTML = 
+        "";
+      document.getElementById("claim").innerHTML = 
+        "claim";
+    } else { //locked
+      document.getElementById("v-locked").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-locked-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
+      document.getElementById("v-total").innerHTML =
+        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
+      document.getElementById("v-total-amount").innerHTML =
+        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
+      document.getElementById("resttime").innerHTML = 
+        "\(" + parseFloat(restTime).toFixed(0) + "days\)";
+      document.getElementById("claim").innerHTML = 
+        "";
+    }
   }
 
   // Trap Focus
@@ -94,117 +129,7 @@ var drawer = async function () {
   //
   // Settings
   //
-  var settings = {
-    speedOpen: 50,
-    speedClose: 350,
-    activeClass: "is-active",
-    visibleClass: "is-visible",
-    selectorTarget: "[data-drawer-target]",
-    selectorTrigger: "[data-drawer-trigger]",
-    selectorClose: "[data-drawer-close]",
-    selectorAddVAIYO: "[data-drawer-addVAIYO]",
-    selectorSwapVAIYO: "[data-drawer-swapVAIYO]",
-    selectorAddFuns: "[data-drawer-addFuns]",
-  };
-
-  //
-  // Methods
-  //
-
-  // Toggle accessibility
-  var toggleAccessibility = function (event) {
-    if (event.getAttribute("aria-expanded") === "true") {
-      event.setAttribute("aria-expanded", false);
-    } else {
-      event.setAttribute("aria-expanded", true);
-    }
-  };
-
-  // Open Drawer
-  var openDrawer = function (trigger) {
-    // Find target
-    var target = document.getElementById(trigger.getAttribute("aria-controls"));
-
-    // Make it active
-    target.classList.add(settings.activeClass);
-
-    // Make body overflow hidden so it is not scrollable
-    document.documentElement.style.overflow = "hidden";
-
-    // Toggle accessibility
-    toggleAccessibility(trigger);
-
-    // Make it visible
-    setTimeout(function () {
-      target.classList.add(settings.visibleClass);
-      trapFocus(target);
-    }, settings.speedOpen);
-  };
-
-  // Close Drawer
-  var closeDrawer = function (event) {
-    // Find target
-    var closestParent = event.closest(settings.selectorTarget),
-      childrenTrigger = document.querySelector(
-        '[aria-controls="' + closestParent.id + '"'
-      );
-
-    // Make it not visible
-    closestParent.classList.remove(settings.visibleClass);
-
-    // Remove body overflow hidden
-    document.documentElement.style.overflow = "";
-
-    // Toggle accessibility
-    toggleAccessibility(childrenTrigger);
-
-    // Make it not active
-    setTimeout(function () {
-      closestParent.classList.remove(settings.activeClass);
-    }, settings.speedClose);
-  };
-
-  // Click Handler
-  var clickHandler = function (event) {
-    // Find elements
-    var toggle = event.target,
-      open = toggle.closest(settings.selectorTrigger),
-      close = toggle.closest(settings.selectorClose);
-      addVAIYO = toggle.closest(settings.selectorAddVAIYO);
-      swapVAIYO = toggle.closest(settings.selectorSwapVAIYO);
-      addFuns = toggle.closest(settings.selectorAddFuns);
-
-    // Open drawer when the open button is clicked
-    if (open) {
-      openDrawer(open);
-    }
-
-    // Close drawer when the close button (or overlay area) is clicked
-    if (close) {
-      closeDrawer(close);
-    }
-
-    if(addVAIYO) {
-      closeDrawer(addVAIYO);
-      showIndacoinModalForVAIYO();
-    }
-
-    if(swapVAIYO) {
-      console.log("swapvaiyo sidebar js file");
-      closeDrawer(swapVAIYO);
-      gotoSwapVAIYO();
-    }
-
-    if(addFuns) {
-      closeDrawer(addFuns);
-      showIndacoinModalForBNBORBUSD();
-    }
-
-    // Prevent default link behavior
-    if (open || close) {
-      event.preventDefault();
-    }
-  };
+  
 
   // Keydown Handler, handle Escape button
   var keydownHandler = function (event) {
@@ -279,40 +204,6 @@ async function displaySideBarValues() {
   document.getElementById("w-amount").innerHTML =
     "$" + parseFloat(usdTotalAmount.div(1e18)).toFixed(2);
 
-  const LockContract = new web3.eth.Contract(LockContractABI, lockvaiyoaddress);
-  LockContract.methods.read(_waddress).call().then((data) => {
-    console.log(data);
-    const vaiyoAmount = new BigNumber(data[2]);
-    var restTime = new BigNumber(data[3]);
-    restTime = restTime.div(60).div(60).div(24);
-    const checkTime = data[4];
-    if(checkTime == true) { //unlocked      
-      document.getElementById("v-unlocked").innerHTML =
-        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
-      document.getElementById("v-unlocked-amount").innerHTML =
-        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
-      document.getElementById("v-total").innerHTML =
-        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
-      document.getElementById("v-total-amount").innerHTML =
-        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
-      document.getElementById("resttime").innerHTML = 
-        "";
-      document.getElementById("claim").innerHTML = 
-        "claim";
-    } else { //locked
-      document.getElementById("v-locked").innerHTML =
-        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
-      document.getElementById("v-locked-amount").innerHTML =
-        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
-      document.getElementById("v-total").innerHTML =
-        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
-      document.getElementById("v-total-amount").innerHTML =
-        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
-      document.getElementById("resttime").innerHTML = 
-        "\(" + parseFloat(restTime).toFixed(0) + "days\)";
-      document.getElementById("claim").innerHTML = 
-        "";
-    }
   });
 }
 
