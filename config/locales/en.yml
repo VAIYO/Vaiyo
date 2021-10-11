@@ -285,7 +285,7 @@ en:
     search:
       start: Start searching...
   landing:
-    about: "Vaiyo is a fully secured conferencing platform for multiple purposes. You can create or join meeting rooms with functionalities as whiteboard, notebook and much more..."
+    about: "Vaiyo is a fully secured communication platform."
     welcome: Welcome to Vaiyo
     video:
     upgrade: Show me how to upgrade to 2.0!

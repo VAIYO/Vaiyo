@@ -54,6 +54,8 @@ class UsersController < ApplicationController
 
     # send_registration_email
     # Sign in automatically if email verification is disabled or if user is already verified.
+    puts("000000000000000000000000000000000000000000")
+    puts(@user.waddress)
     @user.set_role(initial_user_role(@user.waddress))
 
     login(@user) && return

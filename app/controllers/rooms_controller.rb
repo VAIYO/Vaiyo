@@ -49,11 +49,14 @@ class RoomsController < ApplicationController
                      moderator_access_code: room_params[:moderator_access_code])
     @room.owner = current_user
     @room.room_settings = create_room_settings_string(room_params)
+    @room.room_meta_before_create(@room, current_user.waddress)
 
     # Save the room and redirect if it fails
     return redirect_to current_user.main_room, flash: { alert: I18n.t("room.create_room_error") } unless @room.save
 
     logger.info "Support: #{current_user.waddress} has created a new room #{@room.uid}."
+
+    # raise RuntimeError, @room.uid
 
     # Redirect to room is auto join was not turned on
     return redirect_to @room,
@@ -77,7 +80,7 @@ class RoomsController < ApplicationController
         return redirect_to cant_create_rooms_path
       end
 
-      # User is allowed to have rooms 
+      # User is allowed to have rooms
       @search, @order_column, @order_direction, recs =
         recordings(@room.bbb_id, params.permit(:search, :column, :direction), true)
 

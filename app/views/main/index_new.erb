@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <model-viewer background-color="#ffffff" src="/front-assets/vaiyo.glb" auto-rotate camera-controls autoplay alt="cube"></model-viewer>
+                <model-viewer src="/front-assets/vaiyo.glb" loading="eager" auto-rotate autoplay camera-controls environment-image="neutral" alt="cube" id="vaiyo-glb"></model-viewer>
             </div>
         </div>
     </section>
@@ -78,9 +78,7 @@
                 <div class="desc">
                     <p class="excerpt text-light-black leading-default">We are a startup creating a safe and intuitive Communication Platform. Paid by the profit of the own cryptocurrency VAIYO token and gives the option to the user to invest in Vaiyo with the potential to get a high return on investment after listing of the token.</p>
                 </div>
-                <div class="goto-link text-white text-center rounded-circle float-right">
-                    <%= image_tag("/front-assets/arrow-right.svg", :alt => "Right Arrow", :class => 'right-arrow') %>
-                </div>
+                <div class="goto-link text-white text-center rounded-circle float-right"></div>
             </div>
         </div>
     </section>
@@ -139,17 +137,13 @@
                     <div class="content">
                         <p class="desc text-light-black">Recognize a good application when using  it everytime on all occasions on all your devices and everwhere you go.</p>
                     </div>
-                    <div class="goto-link text-white text-center rounded-circle float-right mobile-hide">
-                        <%= image_tag("/front-assets/arrow-right.svg", :alt => "Right Arrow", :class => 'right-arrow') %>
-                    </div>
+                    <div class="goto-link text-white text-center rounded-circle float-right mobile-hide"></div>
                 </div>
                 <div class="col-lg-5 offset-lg-2">
                     <div class="business-icons">
                         <%= image_tag("/front-assets/business-icon.png", :alt => "Business Icon") %>
                     </div> 
-                    <div class="goto-link text-white text-center rounded-circle float-right desktop-hide">
-                        <%= image_tag("/front-assets/arrow-right.svg", :alt => "Right Arrow", :class => 'right-arrow') %>
-                    </div>
+                    <div class="goto-link text-white text-center rounded-circle float-right desktop-hide"></div>
                 </div>
             </div>
         </div>
@@ -169,17 +163,15 @@
                     <h1 class="title fw-600 leading-default mb-0">Transfer Crypto P2P in video call</h1>
                     <hr class="title-border m-0" />
                 </div>
-                <p class="desc text-light-black mb-0">Crypto Payments becoming more popular because of their low transfer fee and high speed, with no interference of any third-party.Soon you can do Crypto Payments in a videocall knowing for sure to who you are paying.</p>
-                <div class="goto-link text-white text-center rounded-circle float-right">
-                    <%= image_tag("/front-assets/arrow-right.svg", :alt => "Right Arrow", :class => 'right-arrow') %>
-                </div>
+                <p class="desc text-light-black mb-0">Crypto Payments becoming more popular because of their low transfer fee and high speed, with no interference of any third-party. Soon you can do Crypto Payments in a video call knowing for sure to who you are paying.</p>
+                <div class="goto-link text-white text-center rounded-circle float-right"></div>
             </div>
         </div>
     </section>
 
     <section id="partners" class="container mx-auto">
         <div class="title-between-wrapper text-center">
-            <h1 class="title fw-600 leading-default m-0">Our Patners</h1>
+            <h1 class="title fw-600 leading-default m-0">Our Partners</h1>
             <div class="border"></div>
         </div>
         <div class="partners-wrapper">
@@ -234,10 +226,17 @@
                 <%= image_tag("/front-assets/logo.svg", :alt => "Vaiyo Logo") %>
                 <p class="excerpt leading-default mb-0">Find Vaiyo on Social Media and start reading about us and communicating with us.</p>
                 <ul class="social-media p-0 mb-0">
-                    <li class="icon"><%= image_tag("/front-assets/google.svg", :alt => "Google") %></li>
-                    <li class="icon ml-4"><%= image_tag("/front-assets/twitter.svg", :alt => "Twitter") %></li>
-                    <li class="icon ml-4"><%= image_tag("/front-assets/linkedin.svg", :alt => "Linkedin") %></li>
-                    <li class="icon ml-4"><%= image_tag("/front-assets/fb.svg", :alt => "Facebook") %></li>
+                    <li class="icon"><%= image_tag("/front-assets/twitter.svg", :alt => "Twitter") %></li>
+                    <li class="icon ml-4">
+                        <a href="https://www.linkedin.com/company/vaiyo" target="__blank">
+                            <%= image_tag("/front-assets/linkedin.svg", :alt => "Linkedin") %>
+                        </a>
+                    </li>
+                    <li class="icon ml-4">
+                        <a href="https://www.facebook.com/vaiyo.io/" target="__blank">
+                            <%= image_tag("/front-assets/fb.svg", :alt => "Facebook") %>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-2 menu-wrapper column-2">
@@ -249,10 +248,12 @@
                     </div>
                 </div>
                 <ul class="menu p-0 mb-0">
-                    <li class="menu-item">Landingpage</li>
-                    <li class="menu-item mt-5">Features</li>
-                    <li class="menu-item mt-5">Referral Program</li>
-                    <li class="menu-item mt-5">Pricing</li>
+                    <li class="menu-item">
+                        <%= link_to "Home", "https://vaiyo.io/" %>
+                    </li>
+                    <li class="menu-item mt-5 disable-href">Features</li>
+                    <li class="menu-item mt-5 disable-href">Referral Program</li>
+                    <li class="menu-item mt-5 disable-href">Pricing</li>
                 </ul>
             </div>
             <div class="col-md-3 menu-wrapper column-3">
@@ -267,9 +268,9 @@
                     <li class="menu-item">
                         <%= link_to "Whitepaper", "https://vaiyo.io/media/Vaiyo-whitepaper.pdf", target: "_blank" %>
                     </li>
-                    <li class="menu-item mt-5">Crypto Transfers</li>
-                    <li class="menu-item mt-5">Rooms</li>
-                    <li class="menu-item mt-5">Wallet</li>
+                    <li class="menu-item mt-5 disable-href">Crypto Transfers</li>
+                    <li class="menu-item mt-5 disable-href">Rooms</li>
+                    <li class="menu-item mt-5 disable-href">Wallet</li>
                 </ul>
             </div>
             <div class="col-md-3 menu-wrapper column-4">
@@ -281,7 +282,7 @@
                     </div>
                 </div>
                 <ul class="menu p-0 mb-0">
-                    <li class="menu-item">Team</li>
+                    <li class="menu-item disable-href">Team</li>
                     <li class="menu-item mt-4">
                         <%= link_to "Term Of Use", "https://vaiyo.io/media/terms_of_use.pdf", target: "_blank" %>
                     </li>
@@ -299,25 +300,27 @@
                     </div>
                 </div>
                 <ul class="menu p-0 mb-0">
-                    <li class="menu-item">Mail Support</li>
+                    <li class="menu-item">
+                        <%= link_to "Mail Support", "mailto:support@vaiyo.io" %>
+                    </li>
                     <li class="menu-item mt-4">
                         <%= link_to "Vaiyo BEP20", "https://bscscan.com/address/0xBA19f24dFCf7f795D90c0404d104680dB28BAC2b", target: "_blank" %>
                     </li>
-                    <li class="menu-item mt-4">Github</li>
+                    <li class="menu-item mt-4 disable-href">Github</li>
                 </ul>
             </div>
         </div>
         <div class="row second-nav d-flex justify-content-between align-items-center">
             <div class="nav">
                 <ul class="pl-0 mb-0">
-                    <li class="nav-item d-inline-block fw-700 text-white">Product</li>
-                    <li class="nav-item d-inline-block fw-700 text-white">Services</li>
-                    <li class="nav-item d-inline-block fw-700 text-white">Company</li>
-                    <li class="nav-item d-inline-block fw-700 text-white">More</li>
+                    <li class="nav-item d-inline-block fw-700 text-white disable-href">Product</li>
+                    <li class="nav-item d-inline-block fw-700 text-white disable-href">Services</li>
+                    <li class="nav-item d-inline-block fw-700 text-white disable-href">Company</li>
+                    <li class="nav-item d-inline-block fw-700 text-white disable-href">More</li>
                 </ul>
             </div>
             <div class="copyright">
-                <p class="copyright-text mb-0 fw-700 text-white mr-0">&#174; VAIYO <%= Time.current.year %> - All Rights Reserved</p>
+                <p class="copyright-text mb-0 fw-700 text-white mr-0 d-flex"><span class="register-mark">&#xae;</span> VAIYO <%= Time.current.year %> - All Rights Reserved</p>
             </div>
         </div>
     </section>

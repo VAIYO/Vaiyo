@@ -1249,117 +1249,6 @@ async function getVAIYOBalance(account) {
   const balance = web3.utils.fromWei(bal, "ether");
   return balance;
 }
-var settings = {
-    speedOpen: 50,
-    speedClose: 350,
-    activeClass: "is-active",
-    visibleClass: "is-visible",
-    selectorTarget: "[data-drawer-target]",
-    selectorTrigger: "[data-drawer-trigger]",
-    selectorClose: "[data-drawer-close]",
-    selectorAddVAIYO: "[data-drawer-addVAIYO]",
-    selectorSwapVAIYO: "[data-drawer-swapVAIYO]",
-    selectorAddFuns: "[data-drawer-addFuns]",
-  };
-
-  //
-  // Methods
-  //
-
-  // Toggle accessibility
-  var toggleAccessibility = function (event) {
-    if (event.getAttribute("aria-expanded") === "true") {
-      event.setAttribute("aria-expanded", false);
-    } else {
-      event.setAttribute("aria-expanded", true);
-    }
-  };
-
-  // Open Drawer
-  var openDrawer = function (trigger) {
-    // Find target
-    var target = document.getElementById(trigger.getAttribute("aria-controls"));
-
-    // Make it active
-    target.classList.add(settings.activeClass);
-
-    // Make body overflow hidden so it is not scrollable
-    document.documentElement.style.overflow = "hidden";
-
-    // Toggle accessibility
-    toggleAccessibility(trigger);
-
-    // Make it visible
-    setTimeout(function () {
-      target.classList.add(settings.visibleClass);
-      trapFocus(target);
-    }, settings.speedOpen);
-  };
-
-  // Close Drawer
-  var closeDrawer = function (event) {
-    // Find target
-    var closestParent = event.closest(settings.selectorTarget),
-      childrenTrigger = document.querySelector(
-        '[aria-controls="' + closestParent.id + '"'
-      );
-
-    // Make it not visible
-    closestParent.classList.remove(settings.visibleClass);
-
-    // Remove body overflow hidden
-    document.documentElement.style.overflow = "";
-
-    // Toggle accessibility
-    toggleAccessibility(childrenTrigger);
-
-    // Make it not active
-    setTimeout(function () {
-      closestParent.classList.remove(settings.activeClass);
-    }, settings.speedClose);
-  };
-
-  // Click Handler
-  var clickHandler = function (event) {
-    // Find elements
-    var toggle = event.target,
-      open = toggle.closest(settings.selectorTrigger),
-      close = toggle.closest(settings.selectorClose);
-      addVAIYO = toggle.closest(settings.selectorAddVAIYO);
-      swapVAIYO = toggle.closest(settings.selectorSwapVAIYO);
-      addFuns = toggle.closest(settings.selectorAddFuns);
-
-    // Open drawer when the open button is clicked
-    if (open) {
-      openDrawer(open);
-    }
-
-    // Close drawer when the close button (or overlay area) is clicked
-    if (close) {
-      closeDrawer(close);
-    }
-
-    if(addVAIYO) {
-      closeDrawer(addVAIYO);
-      showIndacoinModalForVAIYO();
-    }
-
-    if(swapVAIYO) {
-      console.log("swapvaiyo sidebar js file");
-      closeDrawer(swapVAIYO);
-      gotoSwapVAIYO();
-    }
-
-    if(addFuns) {
-      closeDrawer(addFuns);
-      showIndacoinModalForBNBORBUSD();
-    }
-
-    // Prevent default link behavior
-    if (open || close) {
-      event.preventDefault();
-    }
-  };
 async function getBalance(account, crypto) {
   const _waddress = getCurrentAddress();
   const _wtype = getCurrentWalletType();
@@ -1445,191 +1334,6 @@ async function onbtnMax() {
     });
 }
 
-function async GetIndacoinCallback() {
-  document.getElementById("supplybtn").innerHTML = "Supply";
-  document.getElementById("supplybtn").disabled = true;
-  await connectNetwork()
-    .then(async (data) => {
-      if (crypto == "busd") {
-        const _waddress = getCurrentAddress();
-        const _wtype = getCurrentWalletType();
-        //const web3 = getWeb3();
-        const BusdContract = new web3.eth.Contract(
-          BusdContractABI,
-          busdAddress
-        );
-        const allowanceStr = await BusdContract.methods
-          .allowance(_waddress, lockvaiyoaddress)
-          .call();
-        const balanceStr = await BusdContract.methods
-          .balanceOf(_waddress)
-          .call();
-        const allowance = new BigNumber(allowanceStr);
-        const balance = new BigNumber(balanceStr);
-
-        if (allowance < balance) {
-          document.getElementById("supplybtn").disabled = false;
-          document.getElementById("supplybtn").innerHTML = "Approve";
-        }
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-    const _waddress = getCurrentAddress();
-  const _wtype = getCurrentWalletType();
-  //const web3 = getWeb3();
-  const BusdContract = new web3.eth.Contract(BusdContractABI, busdAddress);
-  const balance = await BusdContract.methods.balanceOf(_waddress).call();
-  document.getElementById("supplybtn").disabled = true;
-  /*
-  await BusdContract.methods
-    .approve(lockvaiyoaddress, balance)
-    .send({ from: _waddress })
-    .then((data) => {
-      document.getElementById("supplybtn").innerHTML = "Supply";
-      updateState();
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-  */
-  BusdContract.methods
-    .approve(lockvaiyoaddress, balance)
-    .send({from: _waddress}, function(error, transactionHash){})
-    .on('transactionHash', function(hash){
-        nIntervId = setInterval(myCallback, 500, hash, "approve");
-        openHoldon('sk-dot');
-    })
-    .on('confirmation', function(confirmationNumber, receipt){
-    })
-    .on('receipt', function(receipt){
-    })
-    .on('error', function(error, receipt) { 
-        updateState();
-    });
-    var openDrawer = function (trigger) {
-    // Find target
-    var target = document.getElementById(trigger.getAttribute("aria-controls"));
-
-    // Make it active
-    target.classList.add(settings.activeClass);
-
-    // Make body overflow hidden so it is not scrollable
-    document.documentElement.style.overflow = "hidden";
-
-    // Toggle accessibility
-    toggleAccessibility(trigger);
-
-    // Make it visible
-    setTimeout(function () {
-      target.classList.add(settings.visibleClass);
-      trapFocus(target);
-    }, settings.speedOpen);
-  };
-
-  // Close Drawer
-  var closeDrawer = function (event) {
-    // Find target
-    var closestParent = event.closest(settings.selectorTarget),
-      childrenTrigger = document.querySelector(
-        '[aria-controls="' + closestParent.id + '"'
-      );
-
-    // Make it not visible
-    closestParent.classList.remove(settings.visibleClass);
-
-    // Remove body overflow hidden
-    document.documentElement.style.overflow = "";
-
-    // Toggle accessibility
-    toggleAccessibility(childrenTrigger);
-
-    // Make it not active
-    setTimeout(function () {
-      closestParent.classList.remove(settings.activeClass);
-    }, settings.speedClose);
-  };
-
-  // Click Handler
-  var clickHandler = function (event) {
-    // Find elements
-    var toggle = event.target,
-      open = toggle.closest(settings.selectorTrigger),
-      close = toggle.closest(settings.selectorClose);
-      addVAIYO = toggle.closest(settings.selectorAddVAIYO);
-      swapVAIYO = toggle.closest(settings.selectorSwapVAIYO);
-      addFuns = toggle.closest(settings.selectorAddFuns);
-
-    // Open drawer when the open button is clicked
-    if (open) {
-      openDrawer(open);
-    }
-
-    // Close drawer when the close button (or overlay area) is clicked
-    if (close) {
-      closeDrawer(close);
-    }
-
-    if(addVAIYO) {
-      closeDrawer(addVAIYO);
-      showIndacoinModalForVAIYO();
-    }
-
-    if(swapVAIYO) {
-      console.log("swapvaiyo sidebar js file");
-      closeDrawer(swapVAIYO);
-      gotoSwapVAIYO();
-    }
-
-    if(addFuns) {
-      closeDrawer(addFuns);
-      showIndacoinModalForBNBORBUSD();
-    }
-
-    // Prevent default link behavior
-    if (open || close) {
-      event.preventDefault();
-    }
-  };
-}
-
-let timecnt = 0;
-function myCallback(hash, style)
-{
-  // Your code here
-  // Parameters are purely optional.
-  var receipt = web3.eth.getTransactionReceipt(hash)
-    .then((data) => {
-      if(data != null) {
-        console.log(data);
-        clearInterval(nIntervId);
-        closeHoldon();
-        updateState();
-        displayBalance(getCurrentCryptoType());
-        timecnt = 0;
-        if(data.status) {          
-          document.getElementById("supplybtn").innerHTML = "Supply";
-          if(style != "approve")
-            showModal(data.transactionHash, true);
-        } else {
-          if(style != "approve")
-            showModal(data.transactionHash, false);
-        }
-      }
-    });
-    
-  if(timecnt > 20) {
-    document.getElementById("supplybtn").innerHTML = "Supply";
-    clearInterval(nIntervId);
-    closeHoldon();
-    updateState();
-    if(style != "approve")
-      showModal("", true);
-    displayBalance(getCurrentCryptoType());
-    timecnt = 0;
-  }
-}
 async function setSupplyBtnStatus(crypto) {
   document.getElementById("supplybtn").innerHTML = "Supply";
   document.getElementById("supplybtn").disabled = true;
@@ -1792,9 +1496,9 @@ function showModal(hash, status) {
   if(status) {
     document.getElementById("modal-title").innerHTML = "Transaction Success!";
     if(_test_) {
-      document.getElementById("modal-body").innerHTML = 'You can get the VAIYO tokens after 180 days.<br>View on <a href="https://testnet.bscscan.com/tx/' + hash + '" target="_blank">bscscan.com</a>';
+      document.getElementById("modal-body").innerHTML = 'Claim your VAIYO token after 180 days.<br>View on <a href="https://testnet.bscscan.com/tx/' + hash + '" target="_blank">bscscan.com</a>';
     } else {
-      document.getElementById("modal-body").innerHTML = 'You can get the VAIYO tokens after 180 days.<br>View on <a href="https://bscscan.com/tx/' + hash + '" target="_blank">bscscan.com</a>';
+      document.getElementById("modal-body").innerHTML = 'Claim your VAIYO token after 180 days.<br>View on <a href="https://bscscan.com/tx/' + hash + '" target="_blank">bscscan.com</a>';
     }
     
   } else {
@@ -1808,6 +1512,42 @@ function showModal(hash, status) {
   $("#myModal").modal();
 }
 
+let timecnt = 0;
+function myCallback(hash, style)
+{
+  // Your code here
+  // Parameters are purely optional.
+  var receipt = web3.eth.getTransactionReceipt(hash)
+    .then((data) => {
+      if(data != null) {
+        console.log(data);
+        clearInterval(nIntervId);
+        closeHoldon();
+        updateState();
+        displayBalance(getCurrentCryptoType());
+        timecnt = 0;
+        if(data.status) {          
+          document.getElementById("supplybtn").innerHTML = "Supply";
+          if(style != "approve")
+            showModal(data.transactionHash, true);
+        } else {
+          if(style != "approve")
+            showModal(data.transactionHash, false);
+        }
+      }
+    });
+    
+  if(timecnt > 20) {
+    document.getElementById("supplybtn").innerHTML = "Supply";
+    clearInterval(nIntervId);
+    closeHoldon();
+    updateState();
+    if(style != "approve")
+      showModal("", true);
+    displayBalance(getCurrentCryptoType());
+    timecnt = 0;
+  }
+}
 
 async function deposit() {
   connectNetwork()

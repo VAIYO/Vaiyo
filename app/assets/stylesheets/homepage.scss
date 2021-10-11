@@ -56,6 +56,7 @@ $theme-blue: #467fcf;
 .fw-500 {font-weight: 500}
 .fw-400 {font-weight: 400}
 .bg-blue-dark {background-color: $blue-dark}
+.disable-href {opacity: 0.5; cursor: unset;}
 
 /** Mixins */
 @mixin container($min-width, $max-width) {
@@ -601,6 +602,11 @@ $theme-blue: #467fcf;
         .copyright {
             @include mobile-576 {
                 margin-top: 1rem;
+            }
+            .register-mark {
+                font-size: 3rem;
+                padding-top: 0.4rem;
+                padding-right: 3px;
             }
         }
         .column-1 {

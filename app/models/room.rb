@@ -98,6 +98,13 @@ class Room < ApplicationRecord
     active_rooms + inactive_rooms
   end
 
+  def room_meta_before_create(params, wallet_address)
+    puts("Come in room_meta_before_create: ============================================")
+    puts(wallet_address)
+    @params = params
+    @current_user_wallet_address = wallet_address
+  end
+
   private
 
   # Generates a uid for the room and BigBlueButton.
@@ -113,7 +120,18 @@ class Room < ApplicationRecord
     # 6 character long random string of chars from a..z and 0..9
     full_chunk = SecureRandom.alphanumeric(9).downcase
 
-    [owner.name_chunk, full_chunk[0..2], full_chunk[3..5], full_chunk[6..8]].join("-")
+    # if @params['name'].present? && ENV['ROOM_NAME_UPDATE_FOR_WALLETS'].include?(@current_user_wallet_address)
+    #   [owner.name_chunk, @params.name.downcase.gsub(' ', '-')].join("-")
+    # else
+    #   [owner.name_chunk, full_chunk[0..2], full_chunk[3..5], full_chunk[6..8]].join("-")
+    # end
+
+    
+    # if @params['name'].present? && ENV['ROOM_NAME_UPDATE_FOR_WALLETS'].include?(owner.waddress)
+    #   [owner.name_chunk, @params.name.downcase.gsub(' ', '-')].join("-")
+    # else
+       [owner.name_chunk, full_chunk[0..2], full_chunk[3..5], full_chunk[6..8]].join("-")
+    # end
   end
 
   # Generates a unique bbb_id based on uuid.
