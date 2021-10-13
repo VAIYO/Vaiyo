@@ -139,8 +139,9 @@
           <div class="container">
             <div class="w-header">
               <div class="dropdown">
-                <div class="w-menu-button" data-toggle="dropdown">
-                  <span class="material-icons">account_balance_wallet</span>
+                <div class="w-menu-button">
+                  <!-- <span class="material-icons">account_balance_wallet</span> -->
+                  <span class="avatar" data-nsfw-filter-status="swf">M</span>
                   <div class="w-wallet-text">My Wallet</div>
                   <!-- <span class="material-icons">expand_more</span> -->
                 </div>
@@ -152,19 +153,25 @@
               <div>
                 <div class="w-tooltip wallet-address" id="w-address-tooltip">
                   <div class="address" value="" id="wallet-address">                
-                    <span class="tooltiptext" id="myTooltip">Copy</span>         
-                    <div class="mywallet-text-gray" id="w-address"></div>   
+                    <!-- <span class="tooltiptext" id="myTooltip">Copy</span> -->        
+                    <div class="mywallet-text-gray" id="w-address"></div>                       
+                  </div>
+                  <div class="ml-1">
+                     <%= image_tag(asset_url('wallet_copy.svg'), id:"wallet_copy-icon", class: "wallet-icon flex-fill", alt:"copy") %>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="mywallet-line"></div>
+            <div class="wallet-divider"></div>
             <div class="mywallet-form p-3">
               <div class="d-flex px-5 mt-3">
                 <p class="mywallet-text-dark">
                   Locked
                   <p class="mywallet-text-blue" id="resttime">(0 days)</p>
                 </p>
+                <div class="ml-1">
+                  <%= image_tag(asset_url('wallet_vaiyo.svg'), id:"wallet_vaiyo-icon", class: "wallet-icon flex-fill", alt:"") %>
+                </div>
                 <div class="d-flex ml-auto">
                   <p class="mywallet-text-dark mr-3" id="v-locked">0.00 </p>
                   <p class="mywallet-text-gray ml-auto" id="v-locked-amount">$0.00</p>
@@ -175,6 +182,9 @@
                   Unlocked
                   <a id="claim">(claim)</a>
                 </p>
+                <div class="ml-1">
+                  <%= image_tag(asset_url('wallet_vaiyo.svg'), id:"wallet_vaiyo-icon", class: "wallet-icon flex-fill", alt:"") %>
+                </div>
                 <div class="d-flex ml-auto">
                   <p class="mywallet-text-dark mr-3" id="v-unlocked">0.00 </p>
                   <p class="mywallet-text-gray ml-auto" id="v-unlocked-amount">$0.00</p>
@@ -182,6 +192,9 @@
               </div>
               <div class="d-flex px-5">
                 <p class="mywallet-text-dark">Total Balance</p>
+                <div class="ml-1">
+                  <%= image_tag(asset_url('wallet_vaiyo.svg'), id:"wallet_vaiyo-icon", class: "wallet-icon flex-fill", alt:"") %>
+                </div>
                 <div class="d-flex ml-auto">
                   <p class="mywallet-text-dark mr-3" id="v-total">0.00 </p>
                   <p class="mywallet-text-gray ml-auto" id="v-total-amount">$0.00</p>
@@ -193,6 +206,9 @@
             <div class="mywallet-form p-3">
               <div class="d-flex px-5 mt-3">
                 <p class="mywallet-text-dark">BUSD</p>
+                <div class="ml-1">
+                  <%= image_tag(asset_url('wallet_busd.svg'), id:"wallet_busd-icon", class: "wallet-icon flex-fill", alt:"") %>
+                </div>
                 <div class="d-flex ml-auto">
                   <p class="mywallet-text-dark mr-3" id="w-busd-balance">0.00</p> 
                   <p class="mywallet-text-gray ml-auto" id="w-busd-amount">$0.00</p>  
@@ -200,6 +216,9 @@
               </div>
               <div class="d-flex px-5">
                 <p class="mywallet-text-dark">BNB</p>
+                <div class="ml-1">
+                  <%= image_tag(asset_url('wallet_bnb.svg'), id:"wallet_bnb-icon", class: "wallet-icon flex-fill", alt:"") %>
+                </div>
                 <div class="d-flex ml-auto">
                   <p class="mywallet-text-dark mr-3" id="w-bnb-balance">0.00</p> 
                   <p class="mywallet-text-gray ml-auto" id="w-bnb-amount">$0.00</p>  
