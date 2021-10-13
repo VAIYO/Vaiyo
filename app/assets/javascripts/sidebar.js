@@ -68,11 +68,9 @@ var drawer = async function () {
             tooltip.innerHTML = "Copied";
           });
 
-        document
-          .getElementById("claim")
-          .addEventListener("click", function () {
-            claimVaiyoTokens();
-          });
+        document.getElementById("claim").addEventListener("click", function () {
+          claimVaiyoTokens();
+        });
 
         document
           .getElementById("w-address-tooltip")
@@ -170,9 +168,9 @@ var drawer = async function () {
     var toggle = event.target,
       open = toggle.closest(settings.selectorTrigger),
       close = toggle.closest(settings.selectorClose);
-      addVAIYO = toggle.closest(settings.selectorAddVAIYO);
-      swapVAIYO = toggle.closest(settings.selectorSwapVAIYO);
-      addFuns = toggle.closest(settings.selectorAddFuns);
+    addVAIYO = toggle.closest(settings.selectorAddVAIYO);
+    swapVAIYO = toggle.closest(settings.selectorSwapVAIYO);
+    addFuns = toggle.closest(settings.selectorAddFuns);
 
     // Open drawer when the open button is clicked
     if (open) {
@@ -184,18 +182,18 @@ var drawer = async function () {
       closeDrawer(close);
     }
 
-    if(addVAIYO) {
+    if (addVAIYO) {
       closeDrawer(addVAIYO);
       showIndacoinModalForVAIYO();
     }
 
-    if(swapVAIYO) {
+    if (swapVAIYO) {
       console.log("swapvaiyo sidebar js file");
       closeDrawer(swapVAIYO);
       gotoSwapVAIYO();
     }
 
-    if(addFuns) {
+    if (addFuns) {
       closeDrawer(addFuns);
       showIndacoinModalForBNBORBUSD();
     }
@@ -231,7 +229,6 @@ var drawer = async function () {
 
 drawer();
 
-
 //////////////////////////////////////////
 //SideBar
 //////////////////////////////////////////
@@ -251,7 +248,6 @@ async function displaySideBarValues() {
   const bnbPrice = await getBNBPrice();
   let busdPrice = await getBUSDPrice();
 
-
   let bnbBal = new BigNumber(bnbBalance);
   bnbBal = bnbBal.multipliedBy(1e18);
   var busdBal = new BigNumber(busdBalance);
@@ -263,7 +259,7 @@ async function displaySideBarValues() {
   let bigVAIYOPrice = new BigNumber("12");
   bigVAIYOPrice = bigVAIYOPrice.multipliedBy(bigBusdPrice).dividedBy(1e2);
 
-  const usdAmountForBNB = bnbBal.multipliedBy(bigBnbPrice); 
+  const usdAmountForBNB = bnbBal.multipliedBy(bigBnbPrice);
   const usdAmountForBUSD = busdBal.multipliedBy(bigBusdPrice);
 
   const usdTotalAmount = usdAmountForBNB.plus(usdAmountForBUSD);
@@ -280,52 +276,69 @@ async function displaySideBarValues() {
     "$" + parseFloat(usdTotalAmount.div(1e18)).toFixed(2);
 
   const LockContract = new web3.eth.Contract(LockContractABI, lockvaiyoaddress);
-  LockContract.methods.read(_waddress).call().then((data) => {
-    console.log(data);
-    const vaiyoAmount = new BigNumber(data[2]);
-    var restTime = new BigNumber(data[3]);
-    restTime = restTime.div(60).div(60).div(24);
-    const checkTime = data[4];
-    if(checkTime == true) { //unlocked      
-      document.getElementById("v-unlocked").innerHTML =
-        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
-      document.getElementById("v-unlocked-amount").innerHTML =
-        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
-      document.getElementById("v-total").innerHTML =
-        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
-      document.getElementById("v-total-amount").innerHTML =
-        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
-      document.getElementById("resttime").innerHTML = 
-        "";
-      document.getElementById("claim").innerHTML = 
-        "claim";
-    } else { //locked
-      document.getElementById("v-locked").innerHTML =
-        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
-      document.getElementById("v-locked-amount").innerHTML =
-        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
-      document.getElementById("v-total").innerHTML =
-        parseFloat(vaiyoAmount.div(1e18)).toFixed(2) + "VAIYO";
-      document.getElementById("v-total-amount").innerHTML =
-        "$" + parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(2);
-      document.getElementById("resttime").innerHTML = 
-        "\(" + parseFloat(restTime).toFixed(0) + "days\)";
-      document.getElementById("claim").innerHTML = 
-        "";
-    }
-  });
+  LockContract.methods
+    .read(_waddress)
+    .call()
+    .then((data) => {
+      console.log(data);
+      const vaiyoAmount = new BigNumber(data[2]);
+      var restTime = new BigNumber(data[3]);
+      restTime = restTime.div(60).div(60).div(24);
+      const checkTime = data[4];
+      if (checkTime == true) {
+        //unlocked
+        document.getElementById("v-unlocked").innerHTML = parseFloat(
+          vaiyoAmount.div(1e18)
+        ).toFixed(2);
+        document.getElementById("v-unlocked-amount").innerHTML =
+          "$" +
+          parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(
+            2
+          );
+        document.getElementById("v-total").innerHTML = parseFloat(
+          vaiyoAmount.div(1e18)
+        ).toFixed(2);
+        document.getElementById("v-total-amount").innerHTML =
+          "$" +
+          parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(
+            2
+          );
+        document.getElementById("resttime").innerHTML = "";
+        document.getElementById("claim").innerHTML = "claim";
+      } else {
+        //locked
+        document.getElementById("v-locked").innerHTML = parseFloat(
+          vaiyoAmount.div(1e18)
+        ).toFixed(2);
+        document.getElementById("v-locked-amount").innerHTML =
+          "$" +
+          parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(
+            2
+          );
+        document.getElementById("v-total").innerHTML = parseFloat(
+          vaiyoAmount.div(1e18)
+        ).toFixed(2);
+        document.getElementById("v-total-amount").innerHTML =
+          "$" +
+          parseFloat(vaiyoAmount.div(1e18).multipliedBy(bigVAIYOPrice)).toFixed(
+            2
+          );
+        document.getElementById("resttime").innerHTML =
+          "(" + parseFloat(restTime).toFixed(0) + "days)";
+        document.getElementById("claim").innerHTML = "";
+      }
+    });
 }
 
 async function claimVaiyoTokens() {
   const LockContract = new web3.eth.Contract(LockContractABI, lockvaiyoaddress);
 }
 
-
 function showIndacoinModalForVAIYO() {
   post("/u/:user_uid/addvaiyotokens/", {}, "GET");
 }
 
-function showIndacoinModalForBNBORBUSD() {  
+function showIndacoinModalForBNBORBUSD() {
   post("/u/:user_uid/addvaiyotokens/", {}, "GET");
 }
 

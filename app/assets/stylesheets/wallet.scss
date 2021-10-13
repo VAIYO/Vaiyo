@@ -120,22 +120,24 @@
 }
 
 .mywallet-text-gray {
-  font-size: 19px;
+  font-family: "Poppins";
+  font-size: 16px;
   font-weight: bold;
   color: gray;
   margin-bottom: 0px;
 }
 
 .mywallet-text-dark {
-  font-size: 19px;
+  font-family: "Poppins";
+  font-size: 16px;
   font-weight: bold;
   color: black;
 }
 
 .mywallet-text-blue {
-  font-size: 15px;
+  font-size: 14px;
   color: blue;
-  margin-top: 5px;
+  margin-top: 1px;
 }
 
 .w-tooltip {
@@ -187,6 +189,7 @@
 }
 
 .w-wallet-text {
+  font-family: "Poppins";
   font-size: 17px;
   font-weight: bold;
   color: black;
@@ -216,4 +219,11 @@
 #indacoin-widget {
   width:  auto;
   height: 100%;
+}
+
+.wallet-position {
+  top: 50px;
+  height: fit-content;
+  border-radius: 9px;
+  border: 2px solid #5a5a5a;
 }
