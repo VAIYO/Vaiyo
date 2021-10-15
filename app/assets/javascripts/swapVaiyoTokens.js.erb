@@ -3,7 +3,7 @@ $(document).on("turbolinks:load", async function () {
   var action = $("body").data("action");
   
 
-  if (controller == "users" && action == "getvaiyotokens") {
+  if (controller == "users" && action == "swapvaiyotokens") {
     connectNetwork().then(async (data) => {
       displayBalance("BNB");
     }).catch((e) => {
